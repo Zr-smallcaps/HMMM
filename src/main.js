@@ -19,6 +19,7 @@ import 'font-awesome/css/font-awesome.css'
 import dashboard from '@/module-dashboard/' // 面板
 import base from '@/module-manage/' // 用户管理
 import hmmm from '@/module-hmmm/' // 黑马面面
+// 创建全局EventBus
 
 Vue.use(dashboard, store)
 Vue.use(base, store)
@@ -42,7 +43,15 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.config.productionTip = false
-
+Vue.prototype.$EventBus = new Vue()
+var EventBus = new Vue()
+Object.defineProperties(Vue.prototype, {
+    $bus: {
+        get: function () {
+            return EventBus
+        }
+    }
+})
 /* eslint-disable */
 new Vue({
   el: '#app',
