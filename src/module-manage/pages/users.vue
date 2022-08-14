@@ -98,7 +98,7 @@
             </el-table-column>
             <el-table-column
               prop="is_deleted"
-              label="地址"
+              label="操作"
               align="center"
             >
               <template slot-scope="{ row }">
