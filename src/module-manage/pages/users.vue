@@ -3,7 +3,7 @@
     <div class="app-container">
       <el-card class="box-card">
         <!-- 头部搜索  -->
-        <pageTools>
+        <Navbar>
           <template slot="left">
             <el-form>
               <el-form-item>
@@ -35,19 +35,21 @@
               >新增用户</el-button
             >
           </template>
-        </pageTools>
+        </Navbar>
         <!-- 提示信息 -->
         <el-alert
           :title="`共${counts}条数据`"
           type="info"
           show-icon
-          style="margin-bottom: 20px"
+          style="margin-bottom: 20px; margin-top: 10px"
           :closable="false"
         >
         </el-alert>
         <!-- 表格 -->
         <template>
           <el-table
+            v-loading="tableShowLoading"
+            element-loading-text="给我一点时间"
             :data="userList"
             style="width: 100%"
             :header-cell-style="{
@@ -109,17 +111,24 @@
                     @click="changeUserInfo(row)"
                   ></el-button>
                   <el-button
-                    v-if="row.id === '2'"
+                    v-if="row.id !== '2'"
                     class="btnRight"
                     type="primary"
                     icon="el-icon-delete"
                     circle
+                    @click="deleteUserInfo(row)"
                   ></el-button>
                 </div>
               </template>
             </el-table-column>
           </el-table>
         </template>
+        <pageTools
+          class="pageTools"
+          :total="counts"
+          :paginationPage="page"
+          :paginationPagesize="pagesize"
+        />
       </el-card>
       <add-user
         :visible.sync="addUserVisible"
@@ -133,13 +142,16 @@
 </template>
 
 <script>
-import { list, detail } from '@/api/base/users'
+import { list, detail, remove } from '@/api/base/users'
 import { simple } from '@/api/base/permissions'
 import addUser from '../components/addUser'
+import pageTools from '../components/page-tool'
+import Navbar from '../components/navbar'
 export default {
   name: 'user',
   data() {
     return {
+      tableShowLoading: false,
       page: 1,
       pagesize: 10,
       username: '',
@@ -158,6 +170,7 @@ export default {
   },
   methods: {
     async getUserList() {
+      this.tableShowLoading = true
       try {
         const { data } = await list({
           page: this.page,
@@ -169,6 +182,7 @@ export default {
       } catch (err) {
         console.log(err)
       }
+      this.tableShowLoading = false
     },
     handlerPageNo() {
       if (this.username.trim().length === 0) {
@@ -198,8 +212,35 @@ export default {
         console.log(err)
       }
     },
+    deleteUserInfo(row) {
+      this.$confirm(
+        '此操作将永久删除该用户, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      )
+        .then(async () => {
+          await remove({ id: row.id })
+          this.getUserList()
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          })
+        })
+        .catch(() => {
+          console.log(row)
+          // this.activeID = row.id
+          this.$message({
+            type: 'info',
+            message: '已取消操作',
+          })
+        })
+    },
   },
-  components: { addUser },
+  components: { addUser, Navbar, pageTools },
 }
 </script>
 
@@ -217,5 +258,9 @@ export default {
     background: #fef0f0;
     border-color: #fbc4c4;
   }
+}
+.pageTools {
+  text-align: right;
+  margin-top: 20px;
 }
 </style>

@@ -6,14 +6,7 @@
       </el-col>
       <el-col>
         <el-row type="flex" justify="end">
-          <el-col
-            ><span style="color: blue"
-              >徐路平</span
-            ></el-col
-          >
-          <el-col>
-            <slot name="right" />
-          </el-col>
+          <slot name="right" />
         </el-row>
       </el-col>
     </el-row>
