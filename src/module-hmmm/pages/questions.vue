@@ -8,6 +8,7 @@
     </div>
     <div v-for="o in 4" :key="o" class="text item">
       {{ "列表内容 " + o }}
+      asdadsa
     </div>
   </el-card>
 </template>

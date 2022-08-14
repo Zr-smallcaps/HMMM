@@ -1,9 +1,9 @@
 <template>
-  <div class='container'>学科管理</div>
+  <div class="container">学科管理</div>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang="less"></style>
