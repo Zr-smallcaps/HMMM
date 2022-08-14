@@ -6,7 +6,7 @@
         <span class="text">数据一共{{counts}}条</span>
       </div>
       <el-tab-pane v-for="item in panList" :key="item.name" :label="item.label" :name="item.name">
-        <QuestionDetailTable :questionList='questionList'></QuestionDetailTable>
+        <QuestionDetailTable :questionList='questionList' @handleClick='handleClick'></QuestionDetailTable>
       </el-tab-pane>
     </el-tabs>
     <div class="block">
@@ -83,21 +83,21 @@ export default {
       this.questionList = data.items
       this.counts = data.counts
     },
-    async handleClick(tab) {
+    async handleClick() {
       console.log(this.activeName)
-      if (tab._uid === 252) {
+      if (this.activeName === 'first') {
         this.currentIndex = 'first'
         // 此时是全部状态
         this.getFirstquestionList()
       }
-      if (tab._uid === 277) {
+      if (this.activeName === 'second') {
         // 此时是切换到了待审核状态
         this.getOthersquestionList(0)
       }
-      if (tab._uid === 302) {
+      if (this.activeName === 'third') {
         this.getOthersquestionList(1)
       }
-      if (tab._uid === 327) {
+      if (this.activeName === 'fourth') {
         this.getOthersquestionList(2)
       }
     },

@@ -91,19 +91,19 @@
       <el-col :span="6">
 
         <el-form-item label="城市">
-          <el-select v-model="form.city" placeholder="请选择" style="width:50%">
-            <el-option v-for="(item,index) in provinces" :key="index" :label="item.city" :value="item.city"></el-option>
 
+          <el-select v-model="form.province" placeholder="请选择" @keyup.enter="handleFilter" @change="handleProvince" :style="{width:'50%'}">
+            <el-option v-for="item in citySelect.province" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+          <el-select v-model="form.city" @keyup.enter="handleFilter" filterable placeholder="请选择" :style="{width:'50%'}">
+            <el-option v-for="item in citySelect.city" :key="item" :label="item" :value="item"></el-option>
           </el-select>
 
-          <el-select v-model="form.province" placeholder="请选择" :style="{width:'50%'}">
-            <el-option label="区域一" value="shanghai"></el-option>
-          </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <div class="btn-container">
-          <el-button>清除</el-button>
+          <el-button @click="removeSearchQuestion">清除</el-button>
           <el-button type="primary" @click="searchQuestion">搜索</el-button>
         </div>
 
@@ -130,8 +130,6 @@ export default {
       direction,
       questionType,
       difficulty,
-      provinces,
-      citys,
       form: {
         subjectID: '',
         difficulty: '',
@@ -150,15 +148,29 @@ export default {
       subjectIDList: [],
       catalogList: [],
       tagsList: [],
+      citySelect: {
+        province: [],
+        city: [],
+      },
     }
   },
   components: {},
   computed: {},
   created() {
     this.getSimple()
+    this.getCityData()
   },
   mounted() {},
   methods: {
+    handleFilter() {},
+    // 获取省
+    getCityData() {
+      this.citySelect.province = provinces()
+    },
+    // 选省获取到市
+    handleProvince(e) {
+      this.citySelect.city = citys(e)
+    },
     async getSimple() {
       const { data } = await subjectsSimple()
       this.subjectIDList = data
@@ -182,7 +194,24 @@ export default {
         return true
       })
       const { data } = await choice(objParams)
-     this.$EventBus.$emit('sendTbaleList', data)
+      this.$EventBus.$emit('sendTbaleList', data)
+    },
+    removeSearchQuestion() {
+      this.form = {
+        subjectID: '',
+        difficulty: '',
+        questionType: '',
+        tags: '',
+        province: '',
+        city: '',
+        keyword: '',
+        remarks: '',
+        shortName: '',
+        direction: '',
+        creatorID: '',
+        catalogID: '',
+        chkState: '',
+      }
     },
   },
   watch: {},
