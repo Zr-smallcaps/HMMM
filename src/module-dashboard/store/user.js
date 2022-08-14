@@ -67,6 +67,7 @@ const user = {
       return new Promise((resolve, reject) => {
         profile().then(response => {
           const data = response.data
+
           commit('SET_ROLES', data.roles) // 权限数组 roles
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
