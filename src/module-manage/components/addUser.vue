@@ -166,6 +166,7 @@ export default {
           username: this.addUserForm.username,
         })
         this.onClose()
+        this.$emit('getUserList')
         this.$message.success('修改成功')
       } catch (err) {}
     },

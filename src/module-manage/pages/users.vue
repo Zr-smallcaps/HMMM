@@ -136,6 +136,7 @@
         :userInfo="userInfo"
         ref="addUserdialog"
         :passwordShow="passwordShow"
+        @getUserList="getUserList1"
       ></add-user>
     </div>
   </div>
@@ -169,6 +170,9 @@ export default {
     this.getUserList()
   },
   methods: {
+    getUserList1() {
+      this.getUserList()
+    },
     async getUserList() {
       this.tableShowLoading = true
       try {
