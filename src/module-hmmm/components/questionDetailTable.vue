@@ -37,9 +37,9 @@
         <template slot-scope="{row}">
           <el-link type="primary" style="margin-right:8px" @click="previewDetailFn(row)">预览</el-link>
           <el-link :type="row.chkState>0? 'info':'primary'" style="margin-right:8px" @click="reviewFn(row)" :disabled='row.chkState>0'>审核</el-link>
-          <el-link type="info" style="margin-right:8px">修改</el-link>
+          <el-link :type="row.chkState===0||row.publishState===0?'info':'primary'" style="margin-right:8px" :disabled='row.chkState===0||row.publishState===0'>修改</el-link>
           <el-link type="primary" style="margin-right:8px" @click="publishStateFn(row)">{{row.publishState ? '下架':'上架'}}</el-link>
-          <el-link type="info" style="margin-right:8px" @click="deleteFn(row)">删除</el-link>
+          <el-link :type="row.chkState===0||row.publishState===0?'info':'primary'" style="margin-right:8px" @click="deleteFn(row)" :disabled='row.chkState===0||row.publishState===0'>删除</el-link>
         </template>
       </el-table-column>
     </el-table>

@@ -20,6 +20,7 @@ import dashboard from '@/module-dashboard/' // 面板
 import base from '@/module-manage/' // 用户管理
 import hmmm from '@/module-hmmm/' // 黑马面面
 // 创建全局EventBus
+import VueQuillEditor from 'vue-quill-editor'
 
 Vue.use(dashboard, store)
 Vue.use(base, store)
@@ -27,6 +28,7 @@ Vue.use(base, store)
 // Vue.use(form, store)
 // Vue.use(details, store)
 Vue.use(hmmm, store)
+Vue.use(VueQuillEditor)
 
 /*
  * 注册 - 组件

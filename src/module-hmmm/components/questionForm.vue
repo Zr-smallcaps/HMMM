@@ -112,9 +112,9 @@
   </el-form>
 </template>
 <script>
-import { directorysSimple } from '../../api/hmmm/directorys'
-import { subjectsSimple } from '../../api/hmmm/subjects'
-import { tagsSimple } from '../../api/hmmm/tags'
+import { simple as directorysSimple } from '../../api/hmmm/directorys'
+import { simple as subjectsSimple } from '../../api/hmmm/subjects'
+import { simple as tagsSimple } from '../../api/hmmm/tags'
 import { choice } from '../../api/hmmm/questions'
 import {
   status,

@@ -80,7 +80,6 @@
             </div>
           </el-col>
         </el-checkbox-group>
-
       </div>
 
       <el-col :span="24">
