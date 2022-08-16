@@ -111,7 +111,7 @@
                     @click="changeUserInfo(row)"
                   ></el-button>
                   <el-button
-                    v-if="row.id !== '2'"
+                    v-if="row.id != '2'"
                     class="btnRight"
                     type="primary"
                     icon="el-icon-delete"
@@ -128,6 +128,7 @@
           :total="counts"
           :paginationPage="page"
           :paginationPagesize="pagesize"
+          @pageChange="pageChange"
         />
       </el-card>
       <add-user
@@ -195,6 +196,7 @@ export default {
     },
     clearSearchInput() {
       this.username = ''
+      this.getUserList1()
     },
     searchBtn() {
       this.getUserList()
@@ -243,12 +245,19 @@ export default {
           })
         })
     },
+    // 进入某一页
+    pageChange(page) {
+      ;(this.page = page), this.getUserList1()
+    },
   },
   components: { addUser, Navbar, pageTools },
 }
 </script>
 
 <style scoped lang="scss">
+.dashboard-container {
+  min-width: 900px;
+}
 .operateBtn {
   display: flex;
   justify-content: center;
@@ -261,6 +270,16 @@ export default {
     color: #f56c6c;
     background: #fef0f0;
     border-color: #fbc4c4;
+  }
+  .btnRight:hover {
+    background: #f56c6c;
+    border-color: #f56c6c;
+    color: #fff;
+  }
+  .btnLeft:hover {
+    background: #409eff;
+    border-color: #409eff;
+    color: #fff;
   }
 }
 .pageTools {

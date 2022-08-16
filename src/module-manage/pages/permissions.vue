@@ -278,19 +278,37 @@ export default {
     background: #ecf5ff;
     border-color: #b3d8ff;
   }
+  .btnLeft:hover {
+    background: #409eff;
+    border-color: #409eff;
+    color: #fff;
+  }
   .btnRight {
     color: #f56c6c;
     background: #fef0f0;
     border-color: #fbc4c4;
+  }
+  .btnRight:hover {
+    background: #f56c6c;
+    border-color: #f56c6c;
+    color: #fff;
   }
   .btnRightX {
     background: #f56c6c;
     border-color: #f56c6c;
     color: #fff;
   }
+  .btnRightX:hover {
+    color: #f56c6c;
+    background: #fef0f0;
+    border-color: #fbc4c4;
+  }
 }
 .pageTools {
   text-align: right;
   margin-top: 20px;
+}
+.dashboard-container {
+  min-width: 900px;
 }
 </style>

@@ -149,6 +149,8 @@ export default {
       try {
         this.$refs.addUserForm.validate()
         const res = await add(this.addUserForm)
+        this.$emit('getUserList')
+
         this.$message.success('添加成功')
       } catch (err) {}
       this.onClose()
