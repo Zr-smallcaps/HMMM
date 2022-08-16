@@ -119,6 +119,7 @@
         <!-- 表格 -->
         <template>
           <el-table
+            v-loading="tableShowLoading"
             :data="companysList"
             style="width: 100%"
             :header-cell-style="{
@@ -294,6 +295,7 @@ export default {
       addOrChange: '',
       visible: false, //弹出框
       newobj: {},
+      tableShowLoading: false,
     }
   },
 
@@ -304,6 +306,8 @@ export default {
 
   methods: {
     async getCompanysList() {
+      this.tableShowLoading = true
+
       try {
         const { data } = await list({
           page: this.page,
@@ -312,6 +316,7 @@ export default {
         this.companysList = data.items
         this.counts = data.counts
       } catch (err) {}
+      this.tableShowLoading = false
     },
     // 获取省
     getCityData: function () {
