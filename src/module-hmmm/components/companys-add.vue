@@ -101,6 +101,7 @@ export default {
     titleInfo: {
       type: String,
       required: true,
+      default: '新增用户',
     },
     formBase: {
       type: Object,

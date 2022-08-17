@@ -429,6 +429,13 @@ export default {
       this.addOrChange = true
       this.dialogFormVisible = true
       this.titleInfo = '新增用户'
+      this.formCompanyAdd = {
+        province: '',
+        city: '',
+        tags: '',
+        shortName: '',
+        state: '',
+      }
     },
     //修改弹窗的显示 隐藏
     changeVisible(val) {
