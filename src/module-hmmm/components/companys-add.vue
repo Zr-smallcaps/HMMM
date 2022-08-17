@@ -3,6 +3,7 @@
     <el-dialog
       :title="titleInfo"
       :visible="dialogFormVisible"
+      :before-close="dialogFormH"
     >
       <el-form
         :rules="ruleInline"
@@ -66,7 +67,10 @@
         >
           <el-input v-model="formBase.tags"></el-input>
         </el-form-item>
-        <el-form-item label="备注" prop="remarks">
+        <el-form-item
+          :label="$t('table.remarks')"
+          prop="remarks"
+        >
           <el-input
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"

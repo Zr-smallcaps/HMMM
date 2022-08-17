@@ -16,13 +16,13 @@
                 <el-button
                   style="margin-left: 15px"
                   @click="clearSearchInput"
-                  >清空</el-button
+                  >{{ $t('table.clear') }}</el-button
                 >
                 <el-button
                   type="primary"
                   style="margin-left: 15px"
                   @click="searchBtn"
-                  >搜索</el-button
+                  >{{ $t('table.search') }}</el-button
                 >
               </el-form-item>
             </el-form>
@@ -32,7 +32,7 @@
               type="success"
               icon="el-icon-edit"
               @click="addUser"
-              >新增用户</el-button
+              >{{ $t('table.addUser') }}</el-button
             >
           </template>
         </Navbar>
@@ -61,44 +61,44 @@
             <el-table-column
               align="center"
               prop="id"
-              label="序号"
+              :label="$t('table.id')"
               width="125"
             >
             </el-table-column>
             <el-table-column
               prop="email"
               align="center"
-              label="邮箱"
+              :label="$t('table.email')"
               width="120"
             >
             </el-table-column>
             <el-table-column
               prop="phone"
               align="center"
-              label="联系电话"
+              :label="$t('table.phone')"
             >
             </el-table-column>
             <el-table-column
               prop="username"
               align="center"
-              label="用户名"
+              :label="$t('table.username')"
             >
             </el-table-column>
             <el-table-column
-              prop="permission_group_id"
-              label="权限组名称"
+              prop="permission_group_title"
+              :label="$t('table.permissionUser')"
               align="center"
             >
             </el-table-column>
             <el-table-column
               prop="role"
               align="center"
-              label="角色"
+              :label="$t('table.role')"
             >
             </el-table-column>
             <el-table-column
               prop="is_deleted"
-              label="操作"
+              :label="$t('table.actions')"
               align="center"
             >
               <template slot-scope="{ row }">
@@ -166,14 +166,15 @@ export default {
       passwordShow: true,
     }
   },
-
   created() {
     this.getUserList()
+    this.getPermissionGroup()
   },
   methods: {
     getUserList1() {
       this.getUserList()
     },
+    // 获取用户数据列表
     async getUserList() {
       this.tableShowLoading = true
       try {
@@ -189,24 +190,32 @@ export default {
       }
       this.tableShowLoading = false
     },
+    // 用户名为空则回显
     handlerPageNo() {
       if (this.username.trim().length === 0) {
         this.getUserList()
       }
     },
+    // 清楚用户名
     clearSearchInput() {
       this.username = ''
       this.getUserList1()
     },
+    // 搜索按钮
     searchBtn() {
       this.getUserList()
     },
+    // 新增
     async addUser() {
       this.passwordShow = true
       this.addUserVisible = true
+    },
+    // get权限组数据列表
+    async getPermissionGroup() {
       const { data } = await simple()
       this.permissionGroup = data
     },
+    // 编辑按钮
     async changeUserInfo(row) {
       try {
         const res = await detail(row)
@@ -218,6 +227,7 @@ export default {
         console.log(err)
       }
     },
+    // 删除
     deleteUserInfo(row) {
       this.$confirm(
         '此操作将永久删除该用户, 是否继续?',
@@ -237,8 +247,6 @@ export default {
           })
         })
         .catch(() => {
-          console.log(row)
-          // this.activeID = row.id
           this.$message({
             type: 'info',
             message: '已取消操作',
@@ -250,6 +258,7 @@ export default {
       ;(this.page = page), this.getUserList1()
     },
   },
+  watch: {},
   components: { addUser, Navbar, pageTools },
 }
 </script>

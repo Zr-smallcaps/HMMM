@@ -12,7 +12,7 @@
       label-width="140px"
     >
       <el-form-item
-        label="用户名"
+        :label="$t('table.username')"
         style="width: 80%"
         prop="username"
       >
@@ -21,7 +21,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item
-        label="邮箱"
+        :label="$t('table.email')"
         style="width: 80%"
         prop="email"
       >
@@ -29,7 +29,7 @@
       </el-form-item>
       <el-form-item
         v-if="passwordShow"
-        label="密码"
+        :label="$t('table.paddword')"
         style="width: 80%"
         prop="password"
       >
@@ -37,10 +37,16 @@
           v-model="addUserForm.password"
         ></el-input>
       </el-form-item>
-      <el-form-item label="角色" style="width: 80%">
+      <el-form-item
+        :label="$t('table.role')"
+        style="width: 80%"
+      >
         <el-input v-model="addUserForm.role"></el-input>
       </el-form-item>
-      <el-form-item label="权限组名称" style="width: 80%">
+      <el-form-item
+        :label="$t('table.permissionUser')"
+        style="width: 80%"
+      >
         <el-select
           style="width: 80%"
           v-model="addUserForm.permission_group_id"
@@ -55,10 +61,16 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="联系电话" style="width: 80%">
+      <el-form-item
+        :label="$t('table.phone')"
+        style="width: 80%"
+      >
         <el-input v-model="addUserForm.phone"></el-input>
       </el-form-item>
-      <el-form-item label="介绍" style="width: 80%">
+      <el-form-item
+        :label="$t('table.introduction')"
+        style="width: 80%"
+      >
         <el-input
           type="textarea"
           :rows="2"
@@ -69,11 +81,13 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer" center>
-      <el-button @click="onClose">取 消</el-button>
+      <el-button @click="onClose">{{
+        $t('table.cancel')
+      }}</el-button>
       <el-button
         type="primary"
         @click="passwordShow ? onSave() : onChange()"
-        >确 定</el-button
+        >{{ $t('table.confirm') }}</el-button
       >
     </span>
   </el-dialog>

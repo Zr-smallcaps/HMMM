@@ -73,7 +73,7 @@
             </el-table-column>
             <el-table-column
               prop="title"
-              label="用户名"
+              :label="$t('table.username')"
               width="120"
               align="center"
             >
@@ -81,13 +81,13 @@
             <el-table-column
               prop="update_date"
               align="center"
-              label="日期"
+              :label="$t('table.date')"
               show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column
               prop="is_deleted"
-              label="操作"
+              :label="$t('table.actions')"
               align="right"
             >
               <template slot-scope="{ row }">
@@ -179,7 +179,6 @@ export default {
         pageSize: this.pageSize,
         title: this.title,
       })
-      console.log(data)
       this.permissionList = data.list
       this.counts = data.counts
       this.tableShowLoading = false

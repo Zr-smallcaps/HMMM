@@ -61,7 +61,7 @@
           </el-row>
           <el-row>
             <el-col :span="6">
-              <el-form-item label="状态">
+              <el-form-item :label="$t('table.state')">
                 <el-select
                   v-model="formCompany.state"
                   placeholder="请选择"
@@ -72,7 +72,7 @@
                     value="1"
                   ></el-option>
                   <el-option
-                    label="禁用"
+                    :label="$t('table.prohibit')"
                     value="0"
                   ></el-option>
                 </el-select>
@@ -86,7 +86,7 @@
                 size="small"
                 type="primary"
                 @click="searchBtn"
-                >搜索</el-button
+                >{{ $t('table.search') }}</el-button
               >
             </el-col>
             <el-col :span="12">
@@ -100,7 +100,7 @@
                     type="success"
                     icon="el-icon-edit"
                     @click="addUser"
-                    >新增用户</el-button
+                    >{{ $t('table.addUser') }}</el-button
                   >
                 </el-col>
               </el-row>
@@ -131,7 +131,7 @@
             <el-table-column
               align="center"
               prop="id"
-              label="序号"
+              :label="$t('table.id')"
               width="125"
             >
             </el-table-column>
@@ -163,24 +163,24 @@
             <el-table-column
               prop="addDate"
               align="center"
-              label="创建日期"
+              :label="$t('table.creatdate')"
             >
             </el-table-column>
             <el-table-column
               prop="remarks"
               align="center"
-              label="备注"
+              :label="$t('table.remarks')"
             >
             </el-table-column>
             <el-table-column
               prop="state"
               align="center"
-              label="状态"
+              :label="$t('table.state')"
             >
             </el-table-column>
             <el-table-column
               prop="is_deleted"
-              label="操作"
+              :label="$t('table.actions')"
               align="center"
               width="160px"
             >

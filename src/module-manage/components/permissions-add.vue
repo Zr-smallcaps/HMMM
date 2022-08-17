@@ -43,7 +43,7 @@
               ? handleAdd()
               : changePermissions()
           "
-          >确定</el-button
+          >{{ $t('table.confirm') }}</el-button
         >
       </div>
     </el-dialog>
