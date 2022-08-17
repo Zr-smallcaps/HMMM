@@ -1,66 +1,81 @@
 <template>
   <div>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <sobutton type="primary"> </sobutton>
       <div class="table-header">
         <i class="el-icon-info"></i>
-        <span class="text">数据一共{{counts}}条</span>
+        <span class="text">数据一共{{ counts }}条</span>
       </div>
-      <el-tab-pane v-for="item in panList" :key="item.name" :label="item.label" :name="item.name">
-        <QuestionDetailTable :questionList='questionList'></QuestionDetailTable>
+      <el-tab-pane
+        v-for="item in panList"
+        :key="item.name"
+        :label="item.label"
+        :name="item.name"
+      >
+        <QuestionDetailTable :questionList="questionList"></QuestionDetailTable>
       </el-tab-pane>
     </el-tabs>
     <div class="block">
-      <el-pagination @size-change="handleSizeChange" background @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 5, 5, 5]" :page-size="pagesize" layout=" prev, pager, next,sizes, jumper" :total="counts">
+      <el-pagination
+        @size-change="handleSizeChange"
+        background
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 5, 5, 5]"
+        :page-size="pagesize"
+        layout=" prev, pager, next,sizes, jumper"
+        :total="counts"
+      >
       </el-pagination>
     </div>
   </div>
-
 </template>
 <script>
-import { choice } from '../../api/hmmm/questions'
-import QuestionDetailTable from '../components/questionDetailTable.vue'
+import sobutton from "./button.vue";
+import { choice } from "../../api/hmmm/questions";
+import QuestionDetailTable from "../components/questionDetailTable.vue";
 export default {
-  name: 'QuestionTable',
+  name: "QuestionTable",
   data() {
     return {
-      activeName: 'first',
+      activeName: "first",
       panList: [
         {
-          label: '全部',
-          name: 'first',
+          label: "全部",
+          name: "first",
         },
         {
-          label: '待审核',
-          name: 'second',
+          label: "待审核",
+          name: "second",
         },
         {
-          label: '已审核',
-          name: 'third',
+          label: "已审核",
+          name: "third",
         },
         {
-          label: '已拒绝',
-          name: 'fourth',
+          label: "已拒绝",
+          name: "fourth",
         },
       ],
       page: 1,
       pagesize: 5,
-      chkState: '',
+      chkState: "",
       questionList: [],
       counts: 10,
-      allPages: '',
+      allPages: "",
       currentPage: 1,
-      currentIndex: '',
-    }
+      currentIndex: "",
+    };
   },
   components: { QuestionDetailTable },
   computed: {},
   created() {
-    this.getFirstquestionList()
+    this.getFirstquestionList();
     // 自定义事件
-    this.$EventBus.$on('sendTbaleList', (data) => {
-      this.questionList = data.items
-      this.counts = data.counts
-    })
+    this.$EventBus.$on("sendTbaleList", (data) => {
+      this.questionList = data.items;
+      this.counts = data.counts;
+    });
   },
   mounted() {},
   methods: {
@@ -69,65 +84,68 @@ export default {
       const { data } = await choice({
         page: this.page,
         pagesize: this.pagesize,
-      })
-      this.questionList = data.items
-      this.counts = data.counts
+      });
+      this.questionList = data.items;
+      this.counts = data.counts;
     },
     async getOthersquestionList(chkState) {
       const { data } = await choice({
         page: this.page,
         pagesize: this.pagesize,
         chkState: chkState,
-      })
+      });
       //console.log(data)
-      this.questionList = data.items
-      this.counts = data.counts
+      this.questionList = data.items;
+      this.counts = data.counts;
     },
     async handleClick(tab) {
-      console.log(this.activeName)
+      console.log(this.activeName);
       if (tab._uid === 252) {
-        this.currentIndex = 'first'
+        this.currentIndex = "first";
         // 此时是全部状态
-        this.getFirstquestionList()
+        this.getFirstquestionList();
       }
       if (tab._uid === 277) {
         // 此时是切换到了待审核状态
-        this.getOthersquestionList(0)
+        this.getOthersquestionList(0);
       }
       if (tab._uid === 302) {
-        this.getOthersquestionList(1)
+        this.getOthersquestionList(1);
       }
       if (tab._uid === 327) {
-        this.getOthersquestionList(2)
+        this.getOthersquestionList(2);
       }
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      if (this.activeName === 'first') {
-        this.page = val
-        this.getFirstquestionList()
+      if (this.activeName === "first") {
+        this.page = val;
+        this.getFirstquestionList();
       }
-      if (this.activeName === 'second') {
-        this.page = val
-        this.getOthersquestionList(0)
+      if (this.activeName === "second") {
+        this.page = val;
+        this.getOthersquestionList(0);
       }
-      if (this.activeName === 'third') {
-        this.page = val
-        this.getOthersquestionList(1)
+      if (this.activeName === "third") {
+        this.page = val;
+        this.getOthersquestionList(1);
       }
-      if (this.activeName === 'fourth') {
-        this.page = val
-        this.getOthersquestionList(2)
+      if (this.activeName === "fourth") {
+        this.page = val;
+        this.getOthersquestionList(2);
       }
-      this.page = 1
+      this.page = 1;
     },
   },
   watch: {},
-}
+  components: {
+    sobutton,
+  },
+};
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .table-header {
   background-color: #f4f4f5;
   color: #909399;

@@ -1,20 +1,64 @@
 <template>
-  <el-card class="box-card">
-    <div slot="header" class="clearfix">
-      <span>卡片名称</span>
-      <el-button style="float: right; padding: 3px 0" type="text"
-        >操作按钮</el-button
+  <div class="QustionsChoiceContainer" v-cloak>
+    <div class="tips-header">
+      <span class="tips-text">说明：目前支持学科和关键字条件筛选</span>
+      <el-button type="success" icon="el-icon-edit" size="small"
+        >新增试题</el-button
       >
     </div>
-    <div v-for="o in 4" :key="o" class="text item">
-      {{ "列表内容 " + o }}
-      asdadsa
-    </div>
-  </el-card>
+    <QuestionForm></QuestionForm>
+    <QuestionTable></QuestionTable>
+  </div>
 </template>
 
 <script>
-export default {};
+import QuestionForm from "../low/questionForm.vue";
+import QuestionTable from "../low/questionTable.vue";
+export default {
+  components: { QuestionForm, QuestionTable },
+
+  data() {
+    return {
+      currentPage4: 4,
+    };
+  },
+  computed: {},
+  created() {},
+  mounted() {},
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    SearchQuestion(val) {},
+  },
+  watch: {},
+};
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="less">
+[v-cloak] {
+  display: none;
+}
+.QustionsChoiceContainer {
+  overflow-y: auto;
+
+  margin: 10px;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  .tips-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    .tips-text {
+      font-size: 12px;
+      color: pink;
+    }
+  }
+}
+</style>
