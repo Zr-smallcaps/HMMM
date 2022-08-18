@@ -142,19 +142,27 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="modifyFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="modifyFormVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="modifyFn">确 定</el-button>
       </div>
+    </el-dialog>
+    <!-- 删除弹框 -->
+    <el-dialog title="宝贝" :visible.sync="DeleteVisible" width="30%">
+      <span>您确定要删除这么可爱的数据嘛~</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="DeleteVisible = false">取 消</el-button>
+        <el-button type="primary" @click="DeleteFn">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
 <script>
 import { simple } from "../../api/hmmm/directorys";
-import { list, add, changeState } from "../../api/hmmm/directorys";
+import { list, add, changeState, remove } from "../../api/hmmm/directorys";
 export default {
   data() {
     return {
+      DeleteData: "",
+      DeleteVisible: false,
       ModifySubjectData: {},
       modifyFormVisible: false,
       state: "",
@@ -208,6 +216,26 @@ export default {
     },
   },
   methods: {
+    // 删除按钮确定
+    async DeleteFn() {
+      this.DeleteVisible = false;
+      const res = await remove({
+        id: this.DeleteData.id,
+      });
+      console.log("删除成功", res);
+      this.$message.success("删除成功");
+    },
+    // 删除按钮
+    DelData(Dinfo) {
+      console.log("删除信息", Dinfo);
+      this.DeleteData = Dinfo;
+      this.DeleteVisible = true;
+    },
+    // 修改确定按钮
+    modifyFn() {
+      this.modifyFormVisible = false;
+      this.$message.success("修改成功");
+    },
     // 修改按钮
     ModifySubject(info) {
       console.log(info);
