@@ -24,9 +24,18 @@
         <span> </span>
         <el-button class="clearBtn" @click="clearFn">清除</el-button>
         <el-button type="primary" @click="SearchFn">搜索</el-button>
+
         <el-button type="success" style="float: right" @click="addSubject">
           <i class="el-icon-edit"> 新增学科</i>
         </el-button>
+        <el-button
+          :style="{ display: BackVisible }"
+          style="float: right"
+          type="primary"
+          @click="BackSubject"
+        >
+          ⬅返回学科</el-button
+        >
       </div>
       <!-- alert -->
       <div style="padding: 20px">
@@ -161,6 +170,7 @@ import { list, add, changeState, remove } from "../../api/hmmm/directorys";
 export default {
   data() {
     return {
+      BackVisible: "", //隐藏按钮
       DeleteData: "",
       DeleteVisible: false,
       ModifySubjectData: {},
@@ -216,6 +226,10 @@ export default {
     },
   },
   methods: {
+    //返回学科按钮
+    BackSubject() {
+      this.$router.push("list");
+    },
     // 删除按钮确定
     async DeleteFn() {
       this.DeleteVisible = false;

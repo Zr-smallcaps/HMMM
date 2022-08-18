@@ -17,7 +17,13 @@
         <el-table-column prop="totals" label="题目数量"> </el-table-column>
         <el-table-column fixed="right" label="操作" width="250">
           <template slot-scope="scope">
-            <el-button type="text" size="small"> 学科分类 </el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="$router.push('directorys')"
+            >
+              学科分类
+            </el-button>
             <el-button type="text" size="small"> 学科标签 </el-button>
             <el-button
               type="text"
