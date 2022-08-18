@@ -47,7 +47,7 @@
 
       <!-- 消息提示 -->
       <el-alert
-        :title="`数据一共${totalCount}条`"
+        :title="`数据一共${totalCount}条-----左航宇`"
         type="info"
         show-icon
         :closable="false"
@@ -82,7 +82,7 @@
             {{ row.state === 1 ? "已启用" : "已禁用" }}
           </template>
         </el-table-column>
-        <el-table-column prop="operate" label="操作" width="200">
+        <el-table-column prop="operate" label="操作" width="150">
           <template v-slot="{ row }">
             <el-button type="text" @click="changeState(row)">
               {{ row.state === 1 ? "禁用" : "启用" }}
@@ -243,14 +243,6 @@ export default {
     onPageSizeChange: function (pageSize) {
       this.paginationPagesize = pageSize;
       this.getTagsList();
-    },
-  },
-  watch: {
-    page() {
-      this.getTags();
-    },
-    pagesize() {
-      this.getTags();
     },
   },
   components: {

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-dialog @close="onClose" title="新增目录" :visible="visible" width="30%">
+    <el-dialog @close="onClose" :title="dialogTitle" :visible="visible" width="30%">
       <el-form
         ref="form"
         :model="formData"
@@ -99,6 +99,11 @@ export default {
       this.formData.subjectID = val.subjectID;
       this.formData.tagName = val.tagName;
       this.formData.id = val.id;
+    },
+  },
+  computed: {
+    dialogTitle() {
+      return this.formData.id ? '修改目录' : '新增目录'
     },
   },
   components: {},
