@@ -2,11 +2,11 @@
   <div class="container">
     <el-card class="box-card">
       <!-- 头部 -->
-      <headerVue />
+      <headerVue @childKeywords="parentKeywords" @simpleSearch="simpleSearch" />
       <!-- 警示框 -->
       <alertVue />
       <!-- subject 表单 -->
-      <formSubject :SubjectList="SubjectList" />
+      <formSubject :SubjectList="SubjectList"  />
       <!-- 分页 -->
       <Pagination :totalList="totalList" @Fen="Fenye" />
     </el-card>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { detail } from "../../api/hmmm/subjects";
+import { detail, simple, list, add } from "../../api/hmmm/subjects";
 import headerVue from "../components/headerVue.vue";
 import alertVue from "../components/alertVue.vue";
 import formSubject from "../components/formSubject.vue";
@@ -22,8 +22,9 @@ import Pagination from "../components/Pagination.vue";
 export default {
   data() {
     return {
+      simpleSearchData: "",
       keywords: "",
-      totalList: [],
+      totalList: [], //分页
       SubjectList: [], //给子组件formsubject传
       SubjectData: {
         id: "",
@@ -46,6 +47,7 @@ export default {
   },
   created() {
     this.SubjectDetail();
+    // this.simpleSearch();
   },
   methods: {
     //获取学科详情数据
@@ -64,6 +66,20 @@ export default {
       console.log(val);
       this.SubjectData.page = val;
       this.SubjectDetail();
+    },
+    // 简单列表（搜索功能）
+    async simpleSearch() {
+      const res = await list({
+        subjectName: this.getkeywords,
+        page: 1,
+        pagesize: 10,
+      });
+      console.log("关键字", this.getkeywords);
+      console.log("简单列表信息", res);
+      this.SubjectList = res.data.items;
+    },
+    parentKeywords(keywords) {
+      this.getkeywords = keywords;
     },
   },
 };

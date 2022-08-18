@@ -8,6 +8,7 @@
       :page-size="100"
       layout=" sizes, prev, pager, next, jumper"
       :total="totalList.counts"
+      background
     >
     </el-pagination>
   </div>
