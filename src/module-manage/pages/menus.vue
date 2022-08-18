@@ -1,27 +1,19 @@
 <template>
-  <div>
-    菜单管理
-  </div>
+  <div>新增菜单</div>
 </template>
-
 <script>
 export default {
-  data () {
-    return {
-
-    }
+  name: 'menus',
+  props: {},
+  data() {
+    return {}
   },
-
-  created () {
-
-  },
-
-  methods: {
-
-  }
+  created() {},
+  methods: {},
+  computed: {},
+  watch: {},
+  mounted() {},
+  components: {},
 }
 </script>
-
-<style scoped lang='less'>
-
-</style>
+<style scoped lang="less"></style>
