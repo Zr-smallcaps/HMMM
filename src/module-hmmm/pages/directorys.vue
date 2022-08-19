@@ -29,10 +29,10 @@
           <i class="el-icon-edit"> 新增学科</i>
         </el-button>
         <el-button
-          :style="{ display: BackVisible }"
           style="float: right"
           type="primary"
           @click="BackSubject"
+          v-if="id"
         >
           ⬅返回学科</el-button
         >
@@ -170,7 +170,7 @@ import { list, add, changeState, remove } from "../../api/hmmm/directorys";
 export default {
   data() {
     return {
-      BackVisible: "", //隐藏按钮
+      id: this.$route.query.id,
       DeleteData: "",
       DeleteVisible: false,
       ModifySubjectData: {},

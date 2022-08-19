@@ -20,7 +20,7 @@
             <el-button
               type="text"
               size="small"
-              @click="$router.push('directorys')"
+              @click="$router.push(`/subjects/directorys?id=${scope.row.id}`)"
             >
               学科分类
             </el-button>
