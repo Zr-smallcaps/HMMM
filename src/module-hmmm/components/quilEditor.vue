@@ -28,24 +28,43 @@ export default {
       },
     }
   },
+  props: ['value'],
   components: { quillEditor },
-  computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill
-    },
-  },
+  computed: {},
   created() {},
   mounted() {
     let content = '' // 请求后台返回的内容字符串
     this.str = this.escapeStringHTML(content)
   },
-  methods: {
-    onEditorReady(editor) {
-      // 准备编辑器
+  watch: {
+    value: {
+      handler(va) {
+        this.content = va
+      },
     },
-    onEditorBlur() {}, // 失去焦点事件
-    onEditorFocus() {}, // 获得焦点事件
-    onEditorChange() {}, // 内容改变事件
+  },
+  methods: {
+    // 失去焦点事件
+    onEditorBlur(quill) {
+      //console.log('editor blur!', quill, html, text)
+      //quill.pasteHTML(index, html, source)
+      // console.log(html)
+    },
+    // 获得焦点事件
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill)
+    },
+    // 准备富文本编辑器
+    onEditorReady(quill) {
+      console.log('editor ready!', quill)
+    },
+    // 内容改变事件
+    onEditorChange({ quill, html, text }) {
+      console.log('editor change!', quill, html, text)
+      console.log(html)
+      this.content = html
+    },
+
     // 转码
     escapeStringHTML(str) {
       str = str.replace(/&lt;/g, '<')
@@ -53,7 +72,6 @@ export default {
       return str
     },
   },
-  watch: {},
 }
 </script>
 <style lang='less' scoped>

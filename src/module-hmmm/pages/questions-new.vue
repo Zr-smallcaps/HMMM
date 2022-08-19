@@ -4,26 +4,26 @@
       <div slot="header" class="clearfix">
         <span>试题录入</span>
       </div>
-      <el-form label-width='100px'>
-        <el-form-item label="学科:">
+      <el-form label-width='100px' :model='form' ref="ruleForm" :rules="rules">
+        <el-form-item label="学科:" prop="subjectID">
           <el-select v-model="form.subjectID" placeholder="请选择活动区域" @change="changeSubject" style="width:400px">
             <el-option v-for="item in subjectsList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-
           </el-select>
         </el-form-item>
-        <el-form-item label="目录:">
+
+        <el-form-item label="目录:" prop="catalogID">
           <el-select v-model="form.catalogID" placeholder="请选择" style="width:400px">
             <el-option v-for="item in catalogList" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="企业:">
-          <el-select v-model="form.tags" placeholder="请选择" style="width:400px">
-            <el-option v-for="item in tagsList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-form-item label="企业:" prop="enterpriseID">
+          <el-select v-model="form.enterpriseID" placeholder="请选择" style="width:400px">
+            <el-option v-for="item in enterpriseList" :key="item.id" :label="item.shortName" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="城市:">
+        <el-form-item label="城市:" prop="province">
           <el-select v-model="form.province" placeholder="请选择" @keyup.enter="handleFilter" @change="handleProvince" style="width:200px">
             <el-option v-for="item in citySelect.province" :key="item" :label="item" :value="item"></el-option>
           </el-select>
@@ -32,67 +32,81 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="方向:">
+        <el-form-item label="方向:" prop="direction">
           <el-select v-model="form.direction" placeholder="请选择" style="width:400px">
             <el-option v-for="item in direction" :key="item.value" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="题型:">
-          <el-radio-group v-model="form.isChoice" style="width:400px">
-            <el-radio v-for="item in questionType" :key="item.value" :label="item.value">{{item.label}}</el-radio>
+        <el-form-item label="题型:" prop="questionType">
+          <el-radio-group v-model="form.questionType" style="width:400px">
+            <el-radio v-for="item in questionType" :key="item.value" :label="item.value" :value="item.value">{{item.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="难度:">
+        <el-form-item label="难度:" prop="difficulty">
           <el-radio-group v-model="form.difficulty">
             <el-radio v-for="item in difficulty" :key="item.value" :label="item.value">{{item.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="题干:" class="QuillEditor">
-          <QuillEditor></QuillEditor>
+        <el-form-item label="题干:" class="QuillEditor" prop='question'>
+          <QuillEditor ref="question" v-model="form.question"></QuillEditor>
         </el-form-item>
 
         <el-form-item label="选项:" style="margin-top: 80px">
-          <el-radio-group v-model="radio">
-            <div class="uploadImage">
-              <el-radio :label="3">备选项:<el-input v-model="input" placeholder="请输入内容"></el-input>
-                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                  <div class="el-upload__text" slot="trigger">上传图片</div>
-                  <i class="el-icon-circle-close"></i>
-                </el-upload>
-              </el-radio>
-            </div>
-            <div class="uploadImage">
-              <el-radio :label="3">备选项:<el-input v-model="input" placeholder="请输入内容"></el-input>
-                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                  <div class="el-upload__text" slot="trigger">上传图片</div>
-                  <i class="el-icon-circle-close"></i>
-                </el-upload>
-              </el-radio>
-            </div>
-            <div class="uploadImage">
-              <el-radio :label="3">备选项:<el-input v-model="input" placeholder="请输入内容"></el-input>
-                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                  <div class="el-upload__text" slot="trigger">上传图片</div>
-                  <i class="el-icon-circle-close"></i>
-                </el-upload>
-              </el-radio>
-            </div>
-            <div class="uploadImage">
-              <el-radio :label="3">备选项:<el-input v-model="input" placeholder="请输入内容"></el-input>
-                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                  <div class="el-upload__text" slot="trigger">上传图片</div>
-                  <i class="el-icon-circle-close"></i>
-                </el-upload>
-              </el-radio>
+          <!-- 单选框 -->
+          <el-radio-group v-model="code" v-if="form.questionType===1" @change="radioChange">
+            <div class="uploadImage" v-for="(item, index) in form.options" :key="index">
+              <el-radio :label="item.code">{{item.code}}:</el-radio>
+              <el-input v-model="item.title" placeholder="请输入内容" style="width: 270px; padding: 0 15px; margin-left: -40px"></el-input>
+              <el-upload class="avatar-uploader" action="#" :http-request="httpRequest" list-type="picture-card" :show-file-list="false" @click.native="clickUpLoad(index, $event)" :before-upload="beforeAvatarUpload">
+                <img v-if="item.img" :src="item.img" class="avatar" />
+                <p class="el-upload__text" @click="onRemoveImage(index)">上传图片</p>
+                <i class="el-icon-circle-close"></i>
+              </el-upload>
             </div>
           </el-radio-group>
+
+          <!-- 复选框 -->
+          <el-checkbox-group v-model="checkList" v-if="form.questionType === 2" @change="checkChange">
+            <div v-for="(item, index) in form.options" :key="index" class="active" :class="index === 0 ? 'check' : 'check1'">
+              <el-checkbox :label="item.code"> {{ item.code }}: </el-checkbox>
+              <el-input style="width: 270px; padding: 0 15px; margin-left: -10px" v-model="item.title" />
+
+              <el-upload v-loading="imageIoading" class="avatar-uploader" action="#" :http-request="httpRequest" @click.native="clickUpLoad(index, $event)" :show-file-list="false">
+                <img v-if="item.img" :src="item.img" class="avatar" />
+                <p v-else>上传图片</p>
+                <i class="el-icon-circle-close" @click="onRemoveImage(index)"></i>
+              </el-upload>
+            </div>
+            <el-button type="danger" size="small" :disabled="form.questionType !== 2" @click="addOptions">
+              +增加选项与答案
+            </el-button>
+          </el-checkbox-group>
+        </el-form-item>
+
+        <el-form-item label="解析视频:" style="marginTop:20px">
+          <video :src="form.videoURL" controls width="400px"></video>
+        </el-form-item>
+
+        <el-form-item label="答案解析:" class="QuillEditor" prop="answer">
+          <QuillEditor ref='answer' v-model="form.answer"></QuillEditor>
+        </el-form-item>
+
+        <el-form-item label="题目备注:" style="marginTop:70px">
+          <el-input type="textarea" v-model="form.remarks" :style="{width:'400px',height:'100px'}"></el-input>
+        </el-form-item>
+
+        <el-form-item label="试题标签:" style="marginTop:20px">
+          <el-select v-model="form.tags" placeholder="请选择" multiple style="width:400px">
+            <el-option v-for="item in tagsList" :key="item.value" :label="item.label" :value="item.label"></el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="submitForm" v-if="!$route.query.id">确认提交</el-button>
+          <el-button type="primary" @click="submitUpdateForm" v-else>确认修改</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -102,6 +116,13 @@
 </template>
 
 <script>
+import COS from 'cos-js-sdk-v5'
+// SECRETID 和 SECRETKEY请登录 https://console.cloud.tencent.com/cam/capi 进行查看和管理
+var cos = new COS({
+  SecretId: 'AKIDVrzuc6LM8gz3sTowpTs2xdCYhgS0IL9i',
+  SecretKey: 'MSJwLUO2RbXEgtrZ2FD0XquiHbfU4OTI',
+})
+
 import { provinces, citys } from '@/api/hmmm/citys'
 import {
   status,
@@ -112,10 +133,15 @@ import {
 import { simple as directorysSimple } from '../../api/hmmm/directorys'
 import { simple as subjectsSimple } from '../../api/hmmm/subjects'
 import { simple as tagsSimple } from '../../api/hmmm/tags'
+import { list } from '../../api/hmmm/companys'
+import { add, detail as getDetailInfo, update } from '../../api/hmmm/questions'
 import QuillEditor from '../components/quilEditor.vue'
 export default {
   data() {
     return {
+      imageIndex: 0,
+      imageIoading: false,
+      code: '', // options是哪个
       status,
       difficulty,
       questionType,
@@ -136,12 +162,37 @@ export default {
         enterpriseID: '',
         id: '',
         isChoice: '',
-        options: [],
+        options: [
+          {
+            isRight: false,
+            code: 'A',
+            title: '',
+            img: '',
+          },
+          {
+            isRight: false,
+            code: 'B',
+            title: '',
+            img: '',
+          },
+          {
+            isRight: false,
+            code: 'C',
+            title: '',
+            img: '',
+          },
+          {
+            isRight: false,
+            code: 'D',
+            title: '',
+            img: '',
+          },
+        ],
         province: '',
         publishDate: '',
         publishState: '',
         question: '',
-        questionType: '',
+        questionType: 1,
         remarks: '',
         subjectID: '',
         subjectName: '',
@@ -155,16 +206,110 @@ export default {
       subjectsList: [],
       catalogList: [],
       tagsList: [],
+      enterpriseList: [],
+      rules: {
+        subjectID: [
+          { required: true, message: '请选择学科', trigger: 'change' },
+        ],
+        catalogID: [
+          { required: true, message: '请选择目录', trigger: 'change' },
+        ],
+        enterpriseID: [
+          { required: true, message: '请选择企业', trigger: 'change' },
+        ],
+        province: [
+          { required: true, message: '请选择城市', trigger: 'change' },
+        ],
+        direction: [
+          { required: true, message: '请选择方向', trigger: 'change' },
+        ],
+        questionType: [
+          { required: true, message: '请选择难度', trigger: 'change' },
+        ],
+        difficulty: [
+          { required: true, message: '请选择难度', trigger: 'change' },
+        ],
+        question: [{ required: true, message: '请填写题干', trigger: 'blur' }],
+        answer: [{ required: true, message: '请填写答案', trigger: 'blur' }],
+      },
+      checkList: [],
     }
   },
   components: {
     QuillEditor,
   },
+  watch: {
+    $route: {
+      handler: 'resetData',
+    },
+  },
   created() {
     this.getSubjectsSimple()
     this.getCityData()
+    console.log(this.$route.query.id)
+    if (this.$route.query.id) {
+      this.getDetailInfo()
+    }
   },
   methods: {
+    //上传图片处理
+    httpRequest({ file }) {
+      this.imageIoading = true
+      cos.putObject(
+        {
+          Bucket: 'smallcaps-1313341571' /* 必须 */,
+          Region: 'ap-shanghai' /* 存储桶所在地域，必须字段 */,
+          Key: file.name /* 必须 */,
+          StorageClass: 'STANDARD',
+          Body: file, // 上传文件对象
+          onProgress: function (progressData) {
+            console.log(JSON.stringify(progressData))
+          },
+        },
+        (err, data) => {
+          // 如果err为null 表示没有错 false
+          // 如果err不为null 表示有错 true
+          if (err || data.statusCode !== 200) {
+            console.log(err || data)
+            return this.$message.error('上传图片失败')
+          }
+          // 拿回桶里的照片地址
+          this.form.options[this.imageIndex].img = 'http://' + data.Location
+          this.imageIoading = false
+        }
+      )
+    },
+    beforeAvatarUpload(file) {
+      const types = ['image/gif', 'image/jpeg', 'image/png']
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!types.includes(file.type)) {
+        this.$message.error(`上传头像图片只能是 ${types.join('或')}格式!`)
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return types.includes(file.type) && isLt2M
+    },
+    clickUpLoad(index) {
+      this.imageIndex = index
+    },
+    // 清空照片
+    onRemoveImage(index) {
+      this.form.options[index].img = ''
+    },
+    //添加选项
+    addOptions() {
+      const num =
+        this.form.options[this.form.options.length - 1].code.charCodeAt() + 1
+      this.form.options.push({
+        code: String.fromCharCode(num), //代码
+        title: '', //标题
+        img: '', //图片url
+        isRight: false, //是否正确答案
+      })
+    },
+
     // 获取学科
     async getSubjectsSimple() {
       const { data } = await subjectsSimple()
@@ -175,12 +320,18 @@ export default {
         subjectID: id,
       })
       this.catalogList = catalog
+      const {
+        data: { items },
+      } = await list({
+        pagesize: 1000,
+      })
+      this.enterpriseList = items
       const { data: tags } = await tagsSimple({
         subjectID: id,
       })
       this.tagsList = tags
     },
-
+    handleRemove() {},
     handleFilter() {},
     // 获取省
     getCityData() {
@@ -193,22 +344,233 @@ export default {
     onSubmit() {
       console.log('submit!')
     },
-    // 失去焦点事件
-    onEditorBlur(quill) {
-      console.log('editor blur!', quill)
+    submitForm() {
+      switch (this.code) {
+        case 'A':
+          this.form.options[0].isRight = true
+          break
+        case 'B':
+          this.form.options[1].isRight = true
+          break
+        case 'C':
+          this.form.options[2].isRight = true
+          break
+        case 'D':
+          this.form.options[3].isRight = true
+          break
+      }
+      // 获取里面的值
+      this.form.answer = this.$refs.answer.content
+      this.form.question = this.$refs.question.content
+
+      this.$refs.ruleForm.validate(async (valid) => {
+        if (valid) {
+          let objParams = Object.assign({}, this.form)
+          Object.keys(objParams).filter((n) => {
+            if (objParams[n] === '') {
+              delete objParams[n]
+            }
+            return true
+          })
+          objParams.difficulty = objParams.difficulty.toString()
+          objParams.questionType = objParams.questionType.toString()
+          await add(objParams)
+          this.$message.success('添加成功')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+        this.form = {
+          addDate: '',
+          answer: '',
+          catalogID: '',
+          chkDate: '',
+          chkRemarks: '',
+          chkState: '',
+          chkUserID: '',
+          city: '',
+          creatorID: '',
+          difficulty: '',
+          direction: '',
+          directoryName: '',
+          enterpriseID: '',
+          id: '',
+          isChoice: '',
+          options: [
+            {
+              isRight: false,
+              code: 'A',
+              title: '',
+              img: '',
+            },
+            {
+              isRight: false,
+              code: 'B',
+              title: '',
+              img: '',
+            },
+            {
+              isRight: false,
+              code: 'C',
+              title: '',
+              img: '',
+            },
+            {
+              isRight: false,
+              code: 'D',
+              title: '',
+              img: '',
+            },
+          ],
+          province: '',
+          publishDate: '',
+          publishState: '',
+          question: '',
+          questionType: '',
+          remarks: '',
+          subjectID: '',
+          subjectName: '',
+          tags: '',
+          videoURL: '',
+        }
+      })
     },
-    // 获得焦点事件
-    onEditorFocus(quill) {
-      console.log('editor focus!', quill)
+    submitUpdateForm() {
+      switch (this.code) {
+        case 'A':
+          this.form.options[0].isRight = true
+          break
+        case 'B':
+          this.form.options[1].isRight = true
+          break
+        case 'C':
+          this.form.options[2].isRight = true
+          break
+        case 'D':
+          this.form.options[3].isRight = true
+          break
+      }
+      // 获取里面的值
+      this.form.answer = this.$refs.answer.content
+      this.form.question = this.$refs.question.content
+
+      this.$refs.ruleForm.validate(async (valid) => {
+        if (valid) {
+          let objParams = Object.assign({}, this.form)
+          Object.keys(objParams).filter((n) => {
+            if (objParams[n] === '') {
+              delete objParams[n]
+            }
+            return true
+          })
+          objParams.difficulty = objParams.difficulty.toString()
+          objParams.questionType = objParams.questionType.toString()
+          await update(objParams)
+          this.$message.success('修改成功')
+          this.$router.push('/questions/list')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+        this.form = {
+          addDate: '',
+          answer: '',
+          catalogID: '',
+          chkDate: '',
+          chkRemarks: '',
+          chkState: '',
+          chkUserID: '',
+          city: '',
+          creatorID: '',
+          difficulty: '',
+          direction: '',
+          directoryName: '',
+          enterpriseID: '',
+          id: '',
+          isChoice: '',
+          options: [
+            {
+              isRight: false,
+              code: 'A',
+              title: '',
+              img: '',
+            },
+            {
+              isRight: false,
+              code: 'B',
+              title: '',
+              img: '',
+            },
+            {
+              isRight: false,
+              code: 'C',
+              title: '',
+              img: '',
+            },
+            {
+              isRight: false,
+              code: 'D',
+              title: '',
+              img: '',
+            },
+          ],
+          province: '',
+          publishDate: '',
+          publishState: '',
+          question: '',
+          questionType: '',
+          remarks: '',
+          subjectID: '',
+          subjectName: '',
+          tags: '',
+          videoURL: '',
+        }
+      })
     },
-    // 准备富文本编辑器
-    onEditorReady(quill) {
-      console.log('editor ready!', quill)
+    async getDetailInfo() {
+      const { data } = await getDetailInfo({ id: this.$route.query.id })
+      this.form = data
+      this.form.difficulty = Number(data.difficulty)
+      this.form.questionType = Number(data.questionType)
+      this.form.tags = data.tags.split(',')
+      // 单选框
+      if (this.form.questionType === 1) {
+        const result = this.form.options.find((item) => {
+          return item.isRight
+        })
+        this.code = result.code
+      }
+      // 复选框
+      if (this.form.questionType === 2) {
+        this.form.options.forEach((item) => {
+          if (item.isRight) {
+            this.checkList.push(item.code)
+          }
+        })
+      }
     },
-    // 内容改变事件
-    onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
-      this.content = html
+    // 复选框发生改变时
+    checkChange(checks) {
+      console.log('999')
+      this.form.options.forEach((item) => {
+        item.isRight = 0
+      })
+      checks.forEach((check) => {
+        const index = this.form.options.findIndex((val) => {
+          return val.code === check
+        })
+        this.form.options[index].isRight = 1
+      })
+    },
+    // 单选框发生改变时
+    radioChange(code) {
+      this.body.options.forEach((item) => {
+        if (item.code === code) {
+          item.isRight = 1
+        } else {
+          item.isRight = false
+        }
+      })
     },
   },
 }
@@ -216,28 +578,72 @@ export default {
 
 <style lang='less' >
 .uploadImage {
-  .el-radio {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  position: relative;
+  //图片上传区域样式
+  ::v-deep .avatar-uploader .el-upload {
+    display: inline-block;
+    width: 100px;
+    height: 60px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
   }
-  .el-radio__label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .avatar-uploader i {
-      position: absolute;
-      right: 0;
-      top: 0;
-      -webkit-transform: translate(50%, -50%);
-      transform: translate(50%, -50%);
-      background: #fff;
-      font-size: 18px;
-      color: #999;
+  .avatar-uploader {
+    width: 100px;
+    height: 60px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    p {
+      margin: 0;
+      height: 59px;
+      line-height: 59px;
+      font-size: 14px;
     }
   }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  ::v-deep .ql-editor {
+    height: 200px;
+  }
+  .el-icon-circle-close {
+    position: absolute;
+    top: 5px;
+    right: -9px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+  }
 }
+::v-deep.check {
+  .el-checkbox__label {
+    margin-left: 3px;
+    font-size: 14px;
+  }
+}
+.el-radio {
+  height: 36px;
+  line-height: 36px;
+}
+::v-deep.check1 {
+  .el-checkbox__label {
+    margin-left: 4px;
+    font-size: 14px;
+  }
+}
+
 .el-upload--picture-card {
   height: 60px;
   width: 100px;
@@ -256,12 +662,14 @@ export default {
 
 .QustionsChoiceContainer {
   overflow-y: auto;
-
   margin: 20px;
   background-color: #fff;
   width: 100%;
   height: 100%;
-
+  .el-textarea__inner {
+    width: 400px;
+    height: 100px;
+  }
   .ql-container {
     height: 200px !important;
   }

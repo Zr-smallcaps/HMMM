@@ -10,7 +10,7 @@
       <el-table-column label="题型" prop="questionType" width="100" :formatter='formatterQuestionType'>
 
       </el-table-column>
-      <el-table-column label="题干" width="100">
+      <el-table-column label="题干" width="200">
         <template slot-scope="{row}">
           <p v-html="row.question"></p>
         </template>
@@ -27,7 +27,7 @@
       </el-table-column>
       <el-table-column prop="chkState" label="审核状态" width="100" :formatter='formatterChkType'>
       </el-table-column>
-      <el-table-column prop="chkRemarks" label="审核意见" width="100">
+      <el-table-column prop="chkRemarks" label="审核意见" width="200">
       </el-table-column>
       <el-table-column prop="chkUser" label="审核人" width="100">
       </el-table-column>
@@ -37,7 +37,7 @@
         <template slot-scope="{row}">
           <el-link type="primary" style="margin-right:8px" @click="previewDetailFn(row)">预览</el-link>
           <el-link :type="row.chkState>0? 'info':'primary'" style="margin-right:8px" @click="reviewFn(row)" :disabled='row.chkState>0'>审核</el-link>
-          <el-link :type="row.chkState===0||row.publishState===0?'info':'primary'" style="margin-right:8px" :disabled='row.chkState===0||row.publishState===0'>修改</el-link>
+          <el-link :type="row.chkState===0&&row.publishState===0?'info':'primary'" style="margin-right:8px" @click="modifyInfo(row.id)" :disabled='row.chkState===0||row.publishState===0'>修改</el-link>
           <el-link type="primary" style="margin-right:8px" @click="publishStateFn(row)">{{row.publishState ? '下架':'上架'}}</el-link>
           <el-link :type="row.chkState===0||row.publishState===0?'info':'primary'" style="margin-right:8px" @click="deleteFn(row)" :disabled='row.chkState===0||row.publishState===0'>删除</el-link>
         </template>
@@ -142,6 +142,15 @@ export default {
         this.reviewQuestion = row
       }
     },
+    modifyInfo(id) {
+      //console.log(row)
+      this.$router.push({
+        path: '/questions/new',
+        query: {
+          id: id,
+        },
+      })
+    },
     async reviewConfirm() {
       this.reviewVisible = false
       try {
@@ -169,6 +178,10 @@ export default {
             type: 'success',
             message: '删除成功!',
           })
+          if (this.questionList.length === 1 && this.$parent.page > 1) {
+            this.$parent.page = this.$parent.page - 1
+            this.$parent.handleCurrentChange(this.$parent.page)
+          }
           this.$emit('handleClick')
         })
         .catch(() => {

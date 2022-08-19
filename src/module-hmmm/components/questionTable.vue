@@ -10,7 +10,7 @@
       </el-tab-pane>
     </el-tabs>
     <div class="block">
-      <el-pagination @size-change="handleSizeChange" background @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 5, 5, 5]" :page-size="pagesize" layout=" prev, pager, next,sizes, jumper" :total="counts">
+      <el-pagination @size-change="handleSizeChange" background @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 7, 9,10]" :page-size="pagesize" layout=" prev, pager, next,sizes, jumper" :total="counts">
       </el-pagination>
     </div>
   </div>
@@ -84,7 +84,6 @@ export default {
       this.counts = data.counts
     },
     async handleClick() {
-      console.log(this.activeName)
       if (this.activeName === 'first') {
         this.currentIndex = 'first'
         // 此时是全部状态
@@ -102,7 +101,8 @@ export default {
       }
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.pagesize = val
+      this.handleClick()
     },
     handleCurrentChange(val) {
       if (this.activeName === 'first') {
@@ -138,5 +138,8 @@ export default {
   span {
     margin-left: 10px;
   }
+}
+.block {
+  padding-left: 1300px;
 }
 </style>
