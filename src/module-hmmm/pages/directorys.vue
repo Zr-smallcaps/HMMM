@@ -323,6 +323,7 @@ export default {
       const res = await list({
         page: 1,
         pagesize: 10,
+        subjectID	: this.id,
       });
       //  console.log("目录列表数据", res);
       this.TableList = res.data;

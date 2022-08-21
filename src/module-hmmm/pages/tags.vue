@@ -211,6 +211,7 @@ export default {
       const { data } = await list({
         page: this.paginationPage,
         pagesize: this.paginationPagesize,
+        subjectID	: this.id,
       });
       this.tableData = data.items;
       this.totalCount = data.counts;

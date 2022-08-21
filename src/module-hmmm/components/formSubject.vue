@@ -24,7 +24,13 @@
             >
               学科分类
             </el-button>
-            <el-button type="text" size="small"> 学科标签 </el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="$router.push(`/subjects/tags?id=${scope.row.id}`)"
+            >
+              学科标签
+            </el-button>
             <el-button
               type="text"
               size="small"
