@@ -74,7 +74,7 @@
             <i
               v-if="row.videoURL"
               class="el-icon-film"
-              style="color: #00f; font-size: 18px; cursor:pointer"
+              style="color: #00f; font-size: 18px; cursor: pointer"
               @click="showVideo(row)"
             ></i>
           </template>
@@ -94,7 +94,9 @@
         </el-table-column>
         <el-table-column prop="operate" label="操作" width="180">
           <template v-slot="{ row }">
-            <el-button @click.native="showPreview(row)" type="text">预览</el-button>
+            <el-button @click.native="showPreview(row)" type="text"
+              >预览</el-button
+            >
             <el-button type="text" @click="changeState(row)">
               {{ row.state === 1 ? "禁用" : "启用" }}
             </el-button>
@@ -142,10 +144,7 @@
         :visible.sync="dialogPreviewVisible"
       />
       <!-- 视频弹层 -->
-      <ArticlesVideo
-        ref="ArticlesVideo"
-        :visible.sync="dialogVideoVisible"
-      />
+      <ArticlesVideo ref="ArticlesVideo" :visible.sync="dialogVideoVisible" />
     </el-card>
   </div>
 </template>
@@ -234,8 +233,8 @@ export default {
     },
     showVideo(val) {
       console.log(val);
-      this.$refs.ArticlesVideo.playVideo(val)
-      this.dialogVideoVisible = true
+      this.$refs.ArticlesVideo.playVideo(val);
+      this.dialogVideoVisible = true;
     },
     showPreview(val) {
       console.log(val);
@@ -251,6 +250,10 @@ export default {
         });
         await remove(val);
         this.$message.success("删除成功");
+        this.paginationPage > 1 &&
+        (this.totalCount - 1) / this.paginationPagesize === 0
+          ? (this.paginationPage -= 0)
+          : (this.paginationPage -= 1);
         this.getArticlesList();
       } catch (error) {
         console.log(error);

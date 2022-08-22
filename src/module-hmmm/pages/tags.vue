@@ -42,6 +42,14 @@
             type="success"
             >新增标签</el-button
           >
+          <el-button
+            style="float: right"
+            type="primary"
+            @click="BackSubject"
+            v-if="id"
+          >
+            ⬅返回学科</el-button
+          >
         </el-col>
       </el-row>
 
@@ -136,6 +144,7 @@ import dayjs from "dayjs";
 export default {
   data() {
     return {
+      id: this.$route.query.id,
       tableData: [],
       tableTltle: [
         {
@@ -175,6 +184,9 @@ export default {
     this.getTagsList();
   },
   methods: {
+    BackSubject() {
+      this.$router.push("list");
+    },
     add() {
       this.dialogFormVisible = true;
     },
@@ -199,6 +211,7 @@ export default {
       const { data } = await list({
         page: this.paginationPage,
         pagesize: this.paginationPagesize,
+        subjectID	: this.id,
       });
       this.tableData = data.items;
       this.totalCount = data.counts;
@@ -229,6 +242,10 @@ export default {
         });
         await remove(val);
         this.$message.success("删除成功");
+        this.paginationPage > 1 &&
+        (this.totalCount - 1) / this.paginationPagesize === 0
+          ? (this.paginationPage -= 0)
+          : (this.paginationPage -= 1);
         this.getTagsList();
       } catch (error) {
         console.log(error);
