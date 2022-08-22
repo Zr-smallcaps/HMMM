@@ -9447,7 +9447,7 @@ vue-loader@^15.9.2:
 
 vue-quill-editor@^3.0.6:
   version "3.0.6"
-  resolved "https://registry.npmmirror.com/vue-quill-editor/-/vue-quill-editor-3.0.6.tgz#1f85646211d68a31a80a72cb7f45bb2f119bc8fb"
+  resolved "https://registry.npmmirror.com/vue-quill-editor/-/vue-quill-editor-3.0.6.tgz"
   integrity sha512-g20oSZNWg8Hbu41Kinjd55e235qVWPLfg4NvsLW6d+DhgBTFbEuMpcWlUdrD6qT3+Noim6DRu18VLM9lVShXOQ==
   dependencies:
     object-assign "^4.1.1"
@@ -9468,7 +9468,7 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
 
 vue-table-with-tree-grid@^0.2.4:
   version "0.2.4"
-  resolved "https://registry.npmmirror.com/vue-table-with-tree-grid/-/vue-table-with-tree-grid-0.2.4.tgz#b60b22810ab861bdb669afb3d6f0079a4cee52a4"
+  resolved "https://registry.npmmirror.com/vue-table-with-tree-grid/-/vue-table-with-tree-grid-0.2.4.tgz"
   integrity sha512-V9+wckhA8u1K6RBu7m7bjUEyRrjFFnGVaRghEjzn/fIQJc2VRxVbq8qFXIRlTTC7XUQwbiEK0Xlp4zOXP5W0Gg==
   dependencies:
     vue "^2.4.3"

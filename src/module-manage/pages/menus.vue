@@ -16,6 +16,7 @@
         tree-type
         :selection-type="false"
         style="font-size: 15px"
+        v-loading="treeTableLoading"
       >
         <template slot="title" slot-scope="{ row }">
           <div :style="getMarginLeft(row.level)">
@@ -40,7 +41,7 @@
             icon="el-icon-delete"
             circle
             plain
-            @click="handleDeleteMenuInfo(scope.row.id)"
+            @click="handleDeleteMenuInfo(scope.row)"
           ></el-button>
         </template>
       </tree-table>
@@ -156,6 +157,7 @@ import {
 export default {
   data() {
     return {
+      treeTableLoading: false,
       marginLeft: 20,
       menuList: [],
       columns: [
@@ -236,8 +238,8 @@ export default {
   methods: {
     // get菜单数据数组
     async getMenuList() {
+      this.treeTableLoading = true
       let { data } = await list()
-      console.log(data)
       data.forEach(item => {
         item.pid = 0
       })
@@ -248,6 +250,7 @@ export default {
       )
       this.menuList = JSON.parse(resultStr)
       this.menuItemLevel(this.menuList, 0)
+      this.treeTableLoading = false
     },
     // 设置level 深度
     leveDeep(row) {
@@ -321,7 +324,7 @@ export default {
       this.menuDialogVisible = true
       this.$set(this.menuInfo, 'pid', 0)
     },
-    handleDeleteMenuInfo(id) {
+    handleDeleteMenuInfo(row) {
       this.$confirm(
         '此操作将永久删除该菜单, 是否继续?',
         '提示',
@@ -332,7 +335,7 @@ export default {
         }
       )
         .then(async () => {
-          await remove(id)
+          await remove(row)
           this.$message({
             type: 'success',
             message: '删除成功!',
