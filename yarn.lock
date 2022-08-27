@@ -1748,6 +1748,11 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
+"@xmldom/xmldom@^0.8.2":
+  "integrity" "sha512-+R0juSseERyoPvnBQ/cZih6bpF7IpCXlWbHRoCRzYzqpz6gWHOgf8o4MOEf6KBVuOyqU+gCNLkCWVIJAro8XyQ=="
+  "resolved" "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.8.2.tgz"
+  "version" "0.8.2"
+
 "@xtuc/ieee754@^1.2.0":
   "integrity" "sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA=="
   "resolved" "https://registry.npmjs.org/@xtuc/ieee754/-/ieee754-1.2.0.tgz"
@@ -3096,6 +3101,13 @@
   "integrity" "sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ=="
   "resolved" "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
   "version" "1.0.2"
+
+"cos-js-sdk-v5@^1.4.1":
+  "integrity" "sha512-Rv9piC2zvgcfYOhoh2ykkWrqFNC4hEICJqq+lsYc5R1glIEYzcG4BiTCfe9moIkktpjyg5mSKGXK2c6F+8xdmg=="
+  "resolved" "https://registry.npmmirror.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.1.tgz"
+  "version" "1.4.1"
+  dependencies:
+    "@xmldom/xmldom" "^0.8.2"
 
 "cosmiconfig@^5.0.0", "cosmiconfig@^5.2.1":
   "integrity" "sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA=="
@@ -5063,8 +5075,13 @@
 
 "highlight.js@^10.7.1":
   "integrity" "sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A=="
-  "resolved" "https://registry.npmjs.org/highlight.js/-/highlight.js-10.7.3.tgz"
+  "resolved" "https://registry.npmmirror.com/highlight.js/-/highlight.js-10.7.3.tgz"
   "version" "10.7.3"
+
+"highlight.js@^11.6.0":
+  "integrity" "sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw=="
+  "resolved" "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.6.0.tgz"
+  "version" "11.6.0"
 
 "hmac-drbg@^1.0.1":
   "integrity" "sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg=="
@@ -7919,6 +7936,11 @@
     "extend" "^3.0.2"
     "fast-diff" "1.1.2"
 
+"quill-image-extend-module@^1.1.2":
+  "integrity" "sha512-yHJWZWlTjNZzV34zuT4H55ttDwMxmVJ7JUgKnt/Wd3ejUNcaPOV57/sKG8VEMU5mL7bKZPIKmBdb3weM0M5UeA=="
+  "resolved" "https://registry.npmmirror.com/quill-image-extend-module/-/quill-image-extend-module-1.1.2.tgz"
+  "version" "1.1.2"
+
 "quill@^1.3.4":
   "integrity" "sha512-hG/DVzh/TiknWtE6QmWAF/pxoZKYxfe3J/d/+ShUWkDvvkZQVTPeVmUJVu1uE6DDooC4fWTiCLh84ul89oNz5g=="
   "resolved" "https://registry.npmjs.org/quill/-/quill-1.3.7.tgz"
@@ -9740,17 +9762,10 @@
     "vue-hot-reload-api" "^2.3.0"
     "vue-style-loader" "^4.1.0"
 
-<<<<<<< HEAD
-vue-quill-editor@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.npmmirror.com/vue-quill-editor/-/vue-quill-editor-3.0.6.tgz"
-  integrity sha512-g20oSZNWg8Hbu41Kinjd55e235qVWPLfg4NvsLW6d+DhgBTFbEuMpcWlUdrD6qT3+Noim6DRu18VLM9lVShXOQ==
-=======
 "vue-quill-editor@^3.0.6":
   "integrity" "sha512-g20oSZNWg8Hbu41Kinjd55e235qVWPLfg4NvsLW6d+DhgBTFbEuMpcWlUdrD6qT3+Noim6DRu18VLM9lVShXOQ=="
   "resolved" "https://registry.npmmirror.com/vue-quill-editor/-/vue-quill-editor-3.0.6.tgz"
   "version" "3.0.6"
->>>>>>> 85f0efbbfa3a7c70ae1a3bb52c3ee00760f4b04d
   dependencies:
     "object-assign" "^4.1.1"
     "quill" "^1.3.4"
@@ -9768,17 +9783,10 @@ vue-quill-editor@^3.0.6:
     "hash-sum" "^1.0.2"
     "loader-utils" "^1.0.2"
 
-<<<<<<< HEAD
-vue-table-with-tree-grid@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.npmmirror.com/vue-table-with-tree-grid/-/vue-table-with-tree-grid-0.2.4.tgz"
-  integrity sha512-V9+wckhA8u1K6RBu7m7bjUEyRrjFFnGVaRghEjzn/fIQJc2VRxVbq8qFXIRlTTC7XUQwbiEK0Xlp4zOXP5W0Gg==
-=======
 "vue-table-with-tree-grid@^0.2.4":
   "integrity" "sha512-V9+wckhA8u1K6RBu7m7bjUEyRrjFFnGVaRghEjzn/fIQJc2VRxVbq8qFXIRlTTC7XUQwbiEK0Xlp4zOXP5W0Gg=="
   "resolved" "https://registry.npmmirror.com/vue-table-with-tree-grid/-/vue-table-with-tree-grid-0.2.4.tgz"
   "version" "0.2.4"
->>>>>>> 85f0efbbfa3a7c70ae1a3bb52c3ee00760f4b04d
   dependencies:
     "vue" "^2.4.3"
 

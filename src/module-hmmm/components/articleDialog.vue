@@ -46,6 +46,9 @@ import { quillEditor } from "vue-quill-editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import hljs from "highlight.js";
+import "highlight.js/styles/monokai-sublime.css";
+
 import { add, update } from "@/api/hmmm/articles";
 
 // 工具栏配置项
@@ -70,6 +73,11 @@ export default {
       editorOption: {
         modules: {
           toolbar: toolbarOptions,
+          syntax: {
+            highlight: (text) => {
+              return hljs.highlightAuto(text).value; // 这里就是代码高亮需要配置的地方
+            },
+          },
         },
         placeholder: "",
       },
@@ -113,7 +121,7 @@ export default {
       }
     },
     getIptValue(val) {
-      this.formData = val
+      this.formData = val;
       console.log(this.formData);
     },
   },
