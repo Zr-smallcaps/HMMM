@@ -36,7 +36,7 @@
       <el-table-column label="操作" width="200">
         <template slot-scope="{ row }">
           <el-avatar
-            @click.native="preview"
+            @click.native="preview(row)"
             class="item"
             size="small"
             icon="el-icon-view"
@@ -49,10 +49,23 @@
             icon="el-icon-delete"
           ></el-avatar>
 
-          <el-avatar class="item" size="small" icon="el-icon-check"></el-avatar>
+          <el-avatar
+            class="item"
+            size="small"
+            icon="el-icon-check"
+            @click.native="choicePublish(row)"
+            >上下架</el-avatar
+          >
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+      <span>确定要加入精选吗</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="choicePublishDetail">确 定</el-button>
+      </span>
+    </el-dialog>
     <QuestionPreview
       :previewVisible.sync="previewVisible"
       :previewDetail="previewDetail"
@@ -61,7 +74,7 @@
 </template>
 <script>
 import QuestionPreview from "./questions-preview.vue";
-import { detail } from "../../api/hmmm/questions";
+import { detail, choicePublish } from "../../api/hmmm/questions";
 import { status, difficulty, questionType } from "../../api/hmmm/constants.js";
 import sgbutton from "./button.vue";
 export default {
@@ -70,6 +83,8 @@ export default {
     return {
       previewVisible: false,
       previewDetail: {},
+      dialogVisible: false,
+      currentId: 0,
     };
   },
   props: {
@@ -96,17 +111,31 @@ export default {
       // console.log(current)
       return current ? current.label : "未知";
     },
-    async previewDetailFn(data) {
+
+    async preview(res) {
       this.previewVisible = true;
-      const { data: previewDetail } = await detail({ id: data.id });
+      const { data: previewDetail } = await detail({ id: res.id });
       this.previewDetail = previewDetail;
     },
-    preview() {},
+    async choicePublish(res) {
+      this.dialogVisible = true;
+      this.currentId = res.id;
+    },
+    async choicePublishDetail(res) {
+      const data = await choicePublish({ id: this.currentId, publishState: 1 });
+      if (data.status === 200) {
+        this.dialogVisible = false;
+        return this.$message.success("加入精选成功");
+      } else {
+        this.dialogVisible = false;
+        return this.$message.error("失败，请重试");
+      }
+    },
   },
   watch: {},
 };
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .el-table {
   width: 99.9% !important;
 }

@@ -133,7 +133,6 @@ export default {
     },
     previewDetail: {
       type: Object,
-      default: {},
     },
   },
   components: {},

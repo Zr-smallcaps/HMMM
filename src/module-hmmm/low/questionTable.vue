@@ -38,7 +38,6 @@ export default {
       counts: 10,
       allPages: "",
       currentPage: 1,
-      currentIndex: "",
     };
   },
   components: { QuestionDetailTable },
@@ -59,7 +58,7 @@ export default {
         page: this.page,
         pagesize: this.pagesize,
       });
-      // console.log(data);
+      console.log(data);
       this.questionList = data.items;
       this.counts = data.counts;
     },
@@ -93,6 +92,8 @@ export default {
     // },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pagesize = val;
+      this.getFirstquestionList();
     },
     handleCurrentChange(val) {
       console.log(val);

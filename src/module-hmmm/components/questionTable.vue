@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <sobutton type="primary"> </sobutton>
       <div class="table-header">
         <i class="el-icon-info"></i>
         <span class="text">数据一共{{ counts }}条</span>
@@ -31,7 +30,6 @@
   </div>
 </template>
 <script>
-import sobutton from "./button.vue";
 import { choice } from "../../api/hmmm/questions";
 import QuestionDetailTable from "../components/questionDetailTable.vue";
 export default {
@@ -140,9 +138,6 @@ export default {
     },
   },
   watch: {},
-  components: {
-    sobutton,
-  },
 };
 </script>
 <style lang="less" scoped>
