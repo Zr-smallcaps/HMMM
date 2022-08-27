@@ -345,9 +345,11 @@ export default {
           }
         }
         console.log(this.newobj)
+        console.log(this.formCompany)
         const { data } = await list(this.newobj)
         this.companysList = data.items
         this.counts = data.counts
+        this.newobj = {}
       } catch (err) {
         console.log(err)
       }
@@ -368,7 +370,6 @@ export default {
     changeUserInfo(row) {
       this.titleInfo = '编辑用户'
       this.formCompanyAdd = row
-
       this.addOrChange = false
       this.dialogFormVisible = true
     },
