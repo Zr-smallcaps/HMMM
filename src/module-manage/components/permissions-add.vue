@@ -1,15 +1,22 @@
 <template>
   <div class="add-form">
-    <el-dialog :title="text+pageTitle" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="text + pageTitle"
+      :visible="dialogFormVisible"
+      @close="onClose"
+    >
       <el-form
         :rules="ruleInline"
         ref="dataForm"
         :model="formBase"
         label-position="left"
-        label-width="120px"
-        style="width: 400px; margin-left:120px;"
+        label-width="140px"
+        style="width: 85%"
       >
-        <el-form-item :label="$t('table.username')" prop="title">
+        <el-form-item
+          :label="$t('table.username')"
+          prop="title"
+        >
           <el-input v-model="formBase.title"></el-input>
         </el-form-item>
         <el-form-item :label="$t('table.powerDistriB')">
@@ -26,25 +33,46 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">{{$t('table.cancel')}}</el-button>
-        <el-button type="primary" @click="handleAdd('formBase')">{{$t('table.confirm')}}</el-button>
+        <el-button @click="handleClose">{{
+          $t('table.cancel')
+        }}</el-button>
+        <el-button
+          type="primary"
+          @click="
+            addOrChangeShow
+              ? handleAdd()
+              : changePermissions()
+          "
+          >{{ $t('table.confirm') }}</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { detail, update, add } from '@/api/base/permissions'
+import {
+  detail,
+  update,
+  add,
+} from '@/api/base/permissions'
 import { list } from '@/api/base/menus.js'
 let _this = []
 export default {
   name: 'usersAdd',
-  props: ['text', 'pageTitle', 'ruleInline'],
-  data () {
+  props: [
+    'text',
+    'pageTitle',
+    'ruleInline',
+    'dialogFormVisible',
+    'addOrChangeShow',
+    'rowId',
+  ],
+
+  data() {
     return {
-      dialogFormVisible: false,
       PermissionGroupsmenu: [],
       defaultProps: {
-        label: 'title'
+        label: 'title',
       },
       permissions: [],
       treeCheckedNodes: [],
@@ -52,28 +80,39 @@ export default {
         id: 0,
         create_date: '',
         title: '',
-        permissions: []
+        permissions: [],
       },
-      curPermissions: []
+      curPermissions: [],
     }
   },
   computed: {
-    treeData () {
-      function createNode (item) {
+    treeData() {
+      function createNode(item) {
         // 复选框选择
         let checked = false
         let selected = false
-        if (_this !== null && _this.formBase.permissions.length > 0) {
-          const per = _this.formBase.permissions.find(function (value, index) {
-            return value === item.id
-          })
+        if (
+          _this !== null &&
+          _this.formBase.permissions.length > 0
+        ) {
+          const per = _this.formBase.permissions.find(
+            function (value, index) {
+              return value === item.id
+            }
+          )
           selected = !!per
         }
         // 标记勾选
         if (selected) {
-          const isPoint = item.childs === undefined && item.points === undefined
-          const hasChilds = item.childs !== undefined && item.childs.length > 0
-          const hasPoints = item.points !== undefined && item.points.length > 0
+          const isPoint =
+            item.childs === undefined &&
+            item.points === undefined
+          const hasChilds =
+            item.childs !== undefined &&
+            item.childs.length > 0
+          const hasPoints =
+            item.points !== undefined &&
+            item.points.length > 0
           if (isPoint) {
             checked = true
           } else if (hasPoints) {
@@ -89,10 +128,10 @@ export default {
           title: item.title,
           children: [],
           selected: selected,
-          checked: checked
+          checked: checked,
         }
       }
-      function parseNodes (nodes, parentNode) {
+      function parseNodes(nodes, parentNode) {
         for (const it of nodes) {
           const node = createNode(it)
           // 标记选中
@@ -100,45 +139,58 @@ export default {
           if (node.checked) {
             parentNode.selected = true
           }
-          if (it.childs !== undefined && it.childs.length > 0) {
+          if (
+            it.childs !== undefined &&
+            it.childs.length > 0
+          ) {
             parseNodes(it.childs, node)
-          } else if (it.points !== undefined && it.points.length > 0) {
+          } else if (
+            it.points !== undefined &&
+            it.points.length > 0
+          ) {
             parseNodes(it.points, node)
           }
           parentNode.children.push(node)
         }
       }
-      const nodes = createNode({ title: '系统菜单和页面权限点', expand: true })
+      const nodes = createNode({
+        title: '系统菜单和页面权限点',
+        expand: true,
+      })
       parseNodes(this.PermissionGroupsmenu, nodes)
       return [nodes]
-    }
+    },
   },
   methods: {
+    // 关闭时候的效果
+    onClose() {
+      this.$emit('handleCloseModal', false)
+    },
     // 弹层显示
-    dialogFormV () {
+    dialogFormV() {
       this.dialogFormVisible = true
     },
     // 弹层隐藏
-    dialogFormH () {
+    dialogFormH() {
       this.dialogFormVisible = false
     },
     // 退出
-    handleClose () {
-      this.$emit('handleCloseModal')
+    handleClose() {
+      this.onClose()
     },
     // 表单重置
-    handleResetForm () {
+    handleResetForm() {
       this.formBase = {
         id: 0,
         title: '',
-        permissions: []
+        permissions: [],
       }
     },
     // 编辑详情数据加载
-    hanldeEditForm (objeditId) {
+    hanldeEditForm(objeditId) {
       this.formBase.id = objeditId
       var data = {
-        id: objeditId
+        id: objeditId,
       }
       detail(data).then((ret, err) => {
         if (err) {
@@ -149,49 +201,31 @@ export default {
         this.formBase.permissions = ret.data.permissions
       })
     },
-    setupData () {
+    setupData() {
       list().then(data => {
         this.PermissionGroupsmenu = data.data
       })
     },
 
     // 节点复选框被选中
-    handleCheckChange (data, checked, indeterminate) {
+    handleCheckChange(data, checked, indeterminate) {
       this.treeCheckedNodes = checked.checkedNodes
     },
+    // 新增权限组按钮
+
     // 表单提交
-    handleAdd (object) {
+    handleAdd(object) {
       // 读取完整节点
       const curPermissions = new Set()
-      // function parse(nodes, selectedId) {
-      //   for (const it of nodes) {
-      //     let isFind = false
-      //     if (it.childs !== undefined) {
-      //       isFind = parse(it.childs, selectedId)
-      //     }
-      //     if (it.points !== undefined) {
-      //       isFind = parse(it.points, selectedId)
-      //     }
-      //     if (it.id === selectedId) {
-      //       isFind = true
-      //     }
-      //     if (isFind) {
-      //       curPermissions.add(it.id)
-      //       return true
-      //     }
-      //   }
-      //   return false
-      // }
-      // 已选中的控件节点
       if (this.treeCheckedNodes.length === 0) {
-        this.treeCheckedNodes = this.$refs.treeMenu.getCheckedNodes()
+        this.treeCheckedNodes =
+          this.$refs.treeMenu.getCheckedNodes()
         if (this.treeCheckedNodes.length === 0) {
           return
         }
       }
       // 读取
       for (const it of this.treeCheckedNodes) {
-        // parse(this.PermissionGroupsmenu, it.id)
         curPermissions.add(it.id)
       }
       this.curPermissions = Array.from(curPermissions)
@@ -200,21 +234,21 @@ export default {
         this.$message({
           showClose: true,
           message: '请选择需要的权限及页面权限点',
-          type: 'error'
+          type: 'error',
         })
       } else {
         this.dataFormSub(this.curPermissions)
       }
     },
-    nodeDate (nodesPath, curPermissions, findId) {
+    nodeDate(nodesPath, curPermissions, findId) {
       nodesPath.map(function (item, index) {
         if (curPermissions.indexOf(item.id) === -1) {
           curPermissions.push(findId)
         }
       })
     },
-    dataFormSub (curPermis) {
-      this.$refs.dataForm.validate(valid => {
+    dataFormSub(curPermis) {
+      this.$refs.dataForm.validate(async valid => {
         if (valid) {
           this.$emit('handleCloseModal')
           if (_this.formBase.id) {
@@ -222,15 +256,15 @@ export default {
             var data = {
               id: this.formBase.id,
               title: this.formBase.title,
-              permissions: curPermis
+              permissions: this.curPermissions,
             }
             update(data).then(() => {
               this.$emit('newDataes', this.formBase)
             })
           } else {
-            add({
+            await add({
               title: this.formBase.title,
-              permissions: curPermis
+              permissions: this.curPermissions,
             }).then(() => {
               this.$emit('newDataes', this.formBase)
             })
@@ -239,18 +273,53 @@ export default {
           this.$Message.error('*号为必填项!')
         }
       })
-    }
+    },
+    changePermissions() {
+      // 读取完整节点
+      const curPermissions = new Set()
+      if (this.treeCheckedNodes.length === 0) {
+        this.treeCheckedNodes =
+          this.$refs.treeMenu.getCheckedNodes()
+        if (this.treeCheckedNodes.length === 0) {
+          return
+        }
+      }
+      // 读取
+      for (const it of this.treeCheckedNodes) {
+        curPermissions.add(it.id)
+      }
+      this.curPermissions = Array.from(curPermissions)
+      // 保存
+      if (this.curPermissions.length === 0) {
+        this.$message({
+          showClose: true,
+          message: '请选择需要的权限及页面权限点',
+          type: 'error',
+        })
+      } else {
+        this.dataFormSub(this.curPermissions)
+      }
+      this.$refs.dataForm.validate(async valid => {
+        if (!this.addOrChangeShow) {
+          await update({
+            id: this.rowId,
+            title: this.formBase.title,
+            permissions: this.curPermissions,
+          })
+        }
+      })
+    },
   },
   // 挂载结束
 
   mounted: function () {},
   // 创建完毕状态
-  created () {
+  created() {
     _this = this
     this.setupData()
   },
   // 组件更新
-  updated: function () {}
+  updated: function () {},
 }
 </script>
 <style>

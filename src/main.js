@@ -21,6 +21,10 @@ import base from '@/module-manage/' // 用户管理
 import hmmm from '@/module-hmmm/' // 黑马面面
 // 创建全局EventBus
 
+//注册全局组件
+import components from './module-manage/components'
+Vue.use(components)
+
 Vue.use(dashboard, store)
 Vue.use(base, store)
 // Vue.use(list, store)

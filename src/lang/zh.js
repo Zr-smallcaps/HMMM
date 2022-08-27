@@ -80,6 +80,7 @@ export default {
     edit: '编辑',
     delete: '删除',
     cancel: '取 消',
+    clear: '清空',
     confirm: '确 定',
     operationType: '操作类型',
     operationDate: '操作时间',
