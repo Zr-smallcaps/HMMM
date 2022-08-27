@@ -62,21 +62,21 @@
               <el-input v-model="item.title" placeholder="请输入内容" style="width: 270px; padding: 0 15px; margin-left: -40px"></el-input>
               <el-upload class="avatar-uploader" action="#" :http-request="httpRequest" list-type="picture-card" :show-file-list="false" @click.native="clickUpLoad(index, $event)" :before-upload="beforeAvatarUpload">
                 <img v-if="item.img" :src="item.img" class="avatar" />
-                <p class="el-upload__text" @click="onRemoveImage(index)">上传图片</p>
-                <i class="el-icon-circle-close"></i>
+                <p class="el-upload__text">上传图片</p>
+                <i class="el-icon-circle-close" @click="onRemoveImage(index)"></i>
               </el-upload>
             </div>
           </el-radio-group>
 
           <!-- 复选框 -->
           <el-checkbox-group v-model="checkList" v-if="form.questionType === 2" @change="checkChange">
-            <div v-for="(item, index) in form.options" :key="index" class="active" :class="index === 0 ? 'check' : 'check1'">
+            <div v-for="(item, index) in form.options" :key="index" class="uploadImage" :class="index === 0 ? 'check' : 'check1'">
               <el-checkbox :label="item.code"> {{ item.code }}: </el-checkbox>
               <el-input style="width: 270px; padding: 0 15px; margin-left: -10px" v-model="item.title" />
 
-              <el-upload v-loading="imageIoading" class="avatar-uploader" action="#" :http-request="httpRequest" @click.native="clickUpLoad(index, $event)" :show-file-list="false">
+              <el-upload v-loading="imageIoading" class="avatar-uploader" action="#" :http-request="httpRequest" list-type="picture-card" @click.native="clickUpLoad(index, $event)" :show-file-list="false">
                 <img v-if="item.img" :src="item.img" class="avatar" />
-                <p v-else>上传图片</p>
+                <p v-else class="el-upload__text">上传图片</p>
                 <i class="el-icon-circle-close" @click="onRemoveImage(index)"></i>
               </el-upload>
             </div>

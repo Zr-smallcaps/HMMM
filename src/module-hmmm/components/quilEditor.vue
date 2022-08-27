@@ -24,6 +24,11 @@ export default {
             ['blockquote', 'code-block'], //引用，代码块
             ['image', 'link'], //上传图片、上传视频
           ],
+          syntax: {
+            highlight: (text) => {
+              return hljs.highlightAuto(text).value // 这里就是代码高亮需要配置的地方
+            },
+          },
         },
       },
     }
