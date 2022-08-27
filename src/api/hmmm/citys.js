@@ -3907,11 +3907,10 @@ const datas = [
 ]
 
 // 所有城市
-export const provinces = () => {
-  return datas.map(item => {
-    return item.city
-  })
-}
+
+export const provinces = datas.map(item=>{
+  return item.city
+})
 
 // 城市下地区
 export const citys = pname => {
@@ -3921,4 +3920,8 @@ export const citys = pname => {
     }
   }
   return []
+}
+
+export const cityDetails = (city) =>{
+    
 }

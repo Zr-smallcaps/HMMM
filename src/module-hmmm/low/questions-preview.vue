@@ -1,45 +1,43 @@
 <template>
-  <div class='container'>
-
-    <el-dialog title="题目预览" :visible="previewVisible" width="900" @close='closeFn'>
+  <div class="container">
+    <el-dialog
+      title="题目预览"
+      :visible="previewVisible"
+      width="900"
+      @close="closeFn"
+    >
       <el-row>
         <el-col :span="6">
           <div class="grid-content">
-            【题型】:{{previewDetail.questionType | questionTypeFl}}题
+            【题型】:{{ previewDetail.questionType | questionTypeFl }}题
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="grid-content">【编号】:{{ previewDetail.id }}</div>
+        </el-col>
+        <el-col :span="6">
+          <div class="grid-content">
+            【难度】:{{ previewDetail.difficulty | difficultyFl }}
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="grid-content">【标签】:{{ previewDetail.tags }}</div>
+        </el-col>
+        <el-col :span="6">
+          <div class="grid-content">
+            【学科】:{{ previewDetail.subjectName }}
           </div>
         </el-col>
         <el-col :span="6">
           <div class="grid-content">
-            【编号】:{{previewDetail.id}}
+            【目录】:{{ previewDetail.directoryName }}
           </div>
         </el-col>
         <el-col :span="6">
-          <div class="grid-content">
-            【难度】:{{previewDetail.difficulty | difficultyFl}}
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content">
-            【标签】:{{previewDetail.tags}}
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content">
-            【学科】:{{previewDetail.subjectName}}
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content">
-            【目录】:{{previewDetail.directoryName}}
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content">
-            【方向】:{{previewDetail.direction}}
-          </div>
+          <div class="grid-content">【方向】:{{ previewDetail.direction }}</div>
         </el-col>
       </el-row>
-      <hr>
+      <hr />
       <el-col :span="24">
         <div class="grid-content">
           <div>【题干】:</div>
@@ -49,7 +47,7 @@
         <div class="grid-content">
           <div v-html="previewDetail.question"></div>
         </div>
-        <hr>
+        <hr />
       </el-col>
       <div v-if="radioCheckFlag">
         <!-- 单选题 -->
@@ -59,9 +57,13 @@
           </div>
         </el-col>
         <el-radio-group v-model="previewDetail.isChoice">
-          <el-col :span="24" v-for="item in previewDetail.options" :key="item.id">
+          <el-col
+            :span="24"
+            v-for="item in previewDetail.options"
+            :key="item.id"
+          >
             <div class="grid-content">
-              <el-radio :label="item.isRight">{{item.title}}</el-radio>
+              <el-radio :label="item.isRight">{{ item.title }}</el-radio>
             </div>
           </el-col>
         </el-radio-group>
@@ -74,52 +76,55 @@
           </div>
         </el-col>
         <el-checkbox-group v-model="isChoiceArr">
-          <el-col :span="24" v-for="item in previewDetail.options" :key="item.id">
+          <el-col
+            :span="24"
+            v-for="item in previewDetail.options"
+            :key="item.id"
+          >
             <div class="grid-content">
-              <el-checkbox :label="item.isRight">{{item.title}}</el-checkbox>
+              <el-checkbox :label="item.isRight">{{ item.title }}</el-checkbox>
             </div>
           </el-col>
         </el-checkbox-group>
-
       </div>
 
       <el-col :span="24">
         <div class="grid-content">
           【参考答案】: <el-button type="danger">视频答案预览</el-button>
         </div>
-        <hr>
+        <hr />
       </el-col>
       <el-col :span="24">
         <div class="grid-content">
           【答案解析】:<span v-html="previewDetail.answer"></span>
         </div>
-
       </el-col>
       <el-col :span="24">
         <div class="grid-content">
-          【题目备注】:{{previewDetail.chkRemarks}}
+          【题目备注】:{{ previewDetail.chkRemarks }}
         </div>
       </el-col>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
-
   </div>
 </template>
 <script>
-import { status, difficulty, questionType } from '../../api/hmmm/constants.js'
+import { status, difficulty, questionType } from "../../api/hmmm/constants.js";
 export default {
-  name: '',
+  name: "",
   data() {
     return {
-      radio: '',
-      checkList: ['选中且禁用', '复选框 A'],
+      radio: "",
+      checkList: ["选中且禁用", "复选框 A"],
       radioCheckFlag: false,
       checkboxFlag: false,
       isChoiceArr: [1],
-    }
+    };
   },
   props: {
     previewVisible: {
@@ -128,7 +133,6 @@ export default {
     },
     previewDetail: {
       type: Object,
-      default: {},
     },
   },
   components: {},
@@ -138,29 +142,29 @@ export default {
   filters: {
     questionTypeFl(cellValue) {
       const current = questionType.find((item) => {
-        return item.value === Number(cellValue)
-      })
+        return item.value === Number(cellValue);
+      });
       // console.log(current)
-      return current ? current.label : '未知'
+      return current ? current.label : "未知";
     },
     difficultyFl(cellValue) {
       const current = difficulty.find((item) => {
-        return item.value === Number(cellValue)
-      })
+        return item.value === Number(cellValue);
+      });
       // console.log(current)
-      return current ? current.label : '未知'
+      return current ? current.label : "未知";
     },
   },
   methods: {
     handleClose(done) {
-      this.$confirm('确认关闭？')
+      this.$confirm("确认关闭？")
         .then((_) => {
-          done()
+          done();
         })
-        .catch((_) => {})
+        .catch((_) => {});
     },
     closeFn() {
-      this.$emit('update:previewVisible', false)
+      this.$emit("update:previewVisible", false);
     },
   },
   watch: {
@@ -168,20 +172,20 @@ export default {
       deep: true,
       immediate: true,
       handler(val) {
-        if (val.questionType === '1') {
-          this.radioCheckFlag = true
-          this.checkboxFlag = false
+        if (val.questionType === "1") {
+          this.radioCheckFlag = true;
+          this.checkboxFlag = false;
         }
-        if (val.questionType === '2') {
-          this.radioCheckFlag = false
-          this.checkboxFlag = true
+        if (val.questionType === "2") {
+          this.radioCheckFlag = false;
+          this.checkboxFlag = true;
         }
       },
     },
   },
-}
+};
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .container {
   width: 900px !important;
   hr {

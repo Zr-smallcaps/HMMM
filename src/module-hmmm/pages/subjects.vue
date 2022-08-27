@@ -1,4 +1,14 @@
 <template>
+<<<<<<< HEAD
+  <div class="container">学科管理</div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style scoped lang="less"></style>
+=======
   <div class="container">
     <el-card class="box-card">
       <!-- 头部 -->
@@ -96,3 +106,4 @@ export default {
   padding: 20px 20px;
 }
 </style>
+>>>>>>> 19485c56f8a62a0fd81157517383c1afd079e0d8
