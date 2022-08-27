@@ -36,19 +36,19 @@
         <!-- 新增按钮 -->
         <el-col style="text-align: right" :span="6">
           <el-button
-            @click.native="add"
-            icon="el-icon-edit"
-            size="small"
-            type="success"
-            >新增标签</el-button
-          >
-          <el-button
             style="float: right"
             type="primary"
             @click="BackSubject"
             v-if="id"
           >
             ⬅返回学科</el-button
+          >
+          <el-button
+            @click.native="add"
+            icon="el-icon-edit"
+            size="small"
+            type="success"
+            >新增标签</el-button
           >
         </el-col>
       </el-row>
