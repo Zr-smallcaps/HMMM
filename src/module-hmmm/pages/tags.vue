@@ -36,7 +36,6 @@
         <!-- 新增按钮 -->
         <el-col style="text-align: right" :span="6">
           <el-button
-            style="float: right"
             type="primary"
             @click="BackSubject"
             v-if="id"
